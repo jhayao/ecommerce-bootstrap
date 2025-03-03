@@ -3,6 +3,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anvogue - My Account</title>
+    <script>
+        var user = localStorage.getItem('user');
+        if (!user) {
+            window.location.href = '/login.html';
+        }
+    </script>
     <link rel="shortcut icon" href="./assets/images/fav.png" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -11,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/thin/style.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/light/style.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/duotone/style.css"></head>
 
 <body>
-    <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px]">
+    <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px] hidden">
         <div class="container mx-auto h-full">
             <div class="top-nav-main flex justify-between max-md:justify-center h-full">
                 <div class="left-content flex items-center gap-5 max-md:hidden">
@@ -864,7 +870,7 @@
                                                             <a href="shop-breadcrumb1.html" class="link text-secondary duration-300 cursor-pointer"> Shirt | Sweatshirts </a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop-breadcrumb1.html" class="link text-secondary duration-300 view-all-btn"> View All </a>
+                                                            <a href="shop-breadcrumb1.html" class="link text-secondary duration-300 cursor-pointer view-all-btn"> View All </a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -1304,8 +1310,8 @@
                             <div class="avatar">
                                 <img src="./assets/images/avatar/1.png" alt="avatar" class="md:w-[140px] w-[120px] md:h-[140px] h-[120px] rounded-full">
                             </div>
-                            <div class="name heading6 mt-4 text-center">Tony Nguyen</div>
-                            <div class="mail heading6 font-normal normal-case text-secondary text-center mt-1">hi.avitex@gmail.com</div>
+                            <div class="name heading6 mt-4 text-center" id="profileName">Tony Nguyen</div>
+                            <div class="mail heading6 font-normal normal-case text-secondary text-center mt-1" id="profileEmail">hi.avitex@gmail.com</div>
                         </div>
                         <div class="menu-tab list-category w-full max-w-none lg:mt-10 mt-6">
                             <a href="#!" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white active" data-item="dashboard">
@@ -1670,7 +1676,7 @@
                         </div>
                     </div>
                     <div class="filter-item tab_address text-content w-full p-7 border border-line rounded-xl" data-item="address">
-                        <form>
+                        <form id="addressForm">
                             <button type="button" class="tab_btn flex items-center justify-between w-full pb-1.5 border-b border-line active" data-item="billing">
                                 <strong class="heading6">Billing address</strong>
                                 <span class="ph ph-caret-down text-2xl ic_down duration-300"></span>
@@ -1772,7 +1778,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="filter-item text-content w-full p-7 border border-line rounded-xl" data-item="setting">
+                    <div class="filter-item setting-tab text-content w-full p-7 border border-line rounded-xl" data-item="setting">
                         <form>
                             <div class="heading5 pb-4">Information</div>
                             <div class="upload_image col-span-full">
@@ -1787,7 +1793,7 @@
                                         <p class="caption1 text-secondary mt-1">JPG 120x120px</p>
                                         <div class="upload_file flex items-center gap-3 w-[220px] mt-3 px-3 py-2 border border-line rounded">
                                             <label for="uploadImage" class="caption2 py-1 px-3 rounded bg-line whitespace-nowrap cursor-pointer">Choose File</label>
-                                            <input type="file" name="uploadImage" id="uploadImage" accept="image/*" class="caption2 cursor-pointer" required="">
+                                            <input type="file" name="uploadImage" id="uploadImage" accept="image/*" class="caption2 cursor-pointer">
                                         </div>
                                     </div>
                                 </div>
@@ -1795,21 +1801,21 @@
                             <div class="grid sm:grid-cols-2 gap-4 gap-y-5 mt-5">
                                 <div class="first-name">
                                     <label for="firstName" class="caption1 capitalize">First Name <span class="text-red">*</span></label>
-                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="firstName" type="text" value="Tony" placeholder="First name" required="">
+                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" name="first_name" id="first_name" type="text" value="Tony" placeholder="First name" required="">
                                 </div>
                                 <div class="last-name">
                                     <label for="lastName" class="caption1 capitalize">Last Name <span class="text-red">*</span></label>
-                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="lastName" type="text" value="Nguyen" placeholder="Last name" required="">
+                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" name="last_name" id="last_name" type="text" value="Nguyen" placeholder="Last name" required="">
                                 </div>
                                 <div class="phone-number">
                                     <label for="phoneNumber" class="caption1 capitalize">Phone Number <span class="text-red">*</span></label>
-                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="phoneNumber" type="text" value="(+12) 345 678 910" placeholder="Phone number" required="">
+                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" name="phone_number" id="phone_number" type="text" value="(+12) 345 678 910" placeholder="Phone number" required="">
                                 </div>
                                 <div class="email">
                                     <label for="email" class="caption1 capitalize">Email Address <span class="text-red">*</span></label>
-                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="email" type="email" value="hi.avitex@gmail.com" placeholder="Email address" required="">
+                                    <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" name="email" id="email" type="email" value="hi.avitex@gmail.com" placeholder="Email address" required="">
                                 </div>
-                                <div class="gender">
+                                <!-- <div class="gender">
                                     <label for="gender" class="caption1 capitalize">Gender <span class="text-red">*</span></label>
                                     <div class="select-block mt-2">
                                         <select class="border border-line px-4 py-3 w-full rounded-lg" id="gender" name="gender" value="default">
@@ -1824,7 +1830,7 @@
                                 <div class="birth">
                                     <label for="birth" class="caption1">Day of Birth <span class="text-red">*</span></label>
                                     <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="birth" type="date" placeholder="Day of Birth" required="">
-                                </div>
+                                </div> -->
                             </div>
                             <div class="heading5 pb-4 lg:mt-10 mt-6">Change Password</div>
                             <div class="pass">
@@ -2872,7 +2878,154 @@
 
     <script src="./assets/js/phosphor-icons.js"></script>
     <script src="./assets/js/swiper-bundle.min.js"></script>
-    <script src="./assets/js/main2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module">
+        import { API_URL } from './assets/js/custom.js';
+        import $ from "jquery";
 
+        $(document).ready(function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = user ? user.token : null;
+
+            if (user && user.customer) {
+                renderProfile(user);
+            }
+
+            $('#addressForm').on('submit', function(event) {
+                event.preventDefault();
+
+                const billingAddress = {
+                    first_name: $('#billingFirstName').val(),
+                    last_name: $('#billingLastName').val(),
+                    company: $('#billingCompany').val(),
+                    country: $('#billingCountry').val(),
+                    street: $('#billingStreet').val(),
+                    city: $('#billingCity').val(),
+                    state: $('#billingState').val(),
+                    zip: $('#billingZip').val(),
+                    phone: $('#billingPhone').val(),
+                    email: $('#billingEmail').val()
+                };
+
+                const shippingAddress = {
+                    first_name: $('#shippingFirstName').val(),
+                    last_name: $('#shippingLastName').val(),
+                    company: $('#shippingCompany').val(),
+                    country: $('#shippingCountry').val(),
+                    street: $('#shippingStreet').val(),
+                    city: $('#shippingCity').val(),
+                    state: $('#shippingState').val(),
+                    zip: $('#shippingZip').val(),
+                    phone: $('#shippingPhone').val(),
+                    email: $('#shippingEmail').val()
+                };
+
+                $.ajax({
+                    url: `${API_URL}/customer/address`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    data: JSON.stringify({ billing_address: billingAddress, shipping_address: shippingAddress }),
+                    success: function(response) {
+                        console.log('Address updated successfully:', response);
+                        alert('Address updated successfully');
+                    },
+                    error: function(xhr) {
+                        console.error('Error updating address:', xhr.responseJSON);
+                        alert('Error updating address');
+                    }
+                });
+            });
+
+            $('.setting-tab form').on('submit', function(event) {
+                console.log('Form submitted');
+                
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form data
+                const formData = $(this).serialize();
+
+                console.log('Form data:', JSON.stringify(formData));
+
+                // Perform an AJAX request to submit the form data
+                $.ajax({
+                    url: `${API_URL}/customer/update`,
+                    type: 'PUT',
+                    contentType: 'application/json', // Ensure JSON is sent
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    data: JSON.stringify({ // Convert object to JSON string
+                        first_name: $('#first_name').val(),
+                        middle_name: $('#middle_name').val() || '', // Ensure it's sent
+                        last_name: $('#last_name').val(),
+                        email: $('#email').val(),
+                        phone_number: $('#phone_number').val()
+                    }),
+                    success: function(response) {
+                        const user = new Object();
+                        user.customer = response;
+                        user.token = token;
+                        localStorage.setItem('user', JSON.stringify(user));
+                        renderProfile(user);
+                        //clear form
+                        $('#first_name').val('');
+                        $('#middle_name').val('');
+                        $('#last_name').val('');
+                        $('#email').val('');
+                        $('#phone_number').val('');
+                        $('#password').val('');
+                        $('#newPassword').val('');
+                        $('#confirmPassword').val('');
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error submitting form:', xhr.responseJSON);
+                    }
+                });
+
+        });
+
+        function renderProfile(user) {
+            token = user.token;
+
+            console.log('Token:', user);
+            $.ajax({
+                    url: `${API_URL}/customer/profile`,
+                    type: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    success: function(response) {
+
+                        // renderUser();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error getting user:', xhr.responseJSON);
+                    }
+                });
+
+                if (user.customer.first_name && user.customer.last_name) {
+                    $('#profileName').html(`${user.customer.first_name} ${user.customer.last_name}`);
+                    $('#userName').text(`${user.customer.first_name} ${user.customer.last_name}`);
+                }else {
+                    $('#profileName').html("-");
+                }
+                $('#first_name').val(user.customer.first_name || '');
+                $('#last_name').val(user.customer.last_name || '');
+                $('#email').val(user.customer.email || '');
+                $('#phone_number').val(user.customer.phone_number || '');
+                $('#userName').text(`${user.customer.first_name || ''} ${user.customer.last_name || ''}`);
+                $('#userEmail').text(user.customer.email || '');
+        }
+
+        });
+    </script>
 
 </body></html>

@@ -804,7 +804,48 @@ const itemActive = document.querySelectorAll(".menu-tab .tab-item.active");
 
 itemActive.forEach((item) => {
   let indicator = item.parentElement.querySelector(".indicator");
-  if (indicator) {
+  if (indicator) {function renderProfile(user) {
+    let token = user.token ?? '';
+    $.ajax({
+            url: `${API_URL}/customer/profile`,
+            type: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            success: function(response) {
+                if (response.address) {
+                    response.address = response.address[0];
+                    console.log(response.address);
+                    $('#shippingFirstName').val(response.address.first_name || '');
+                    $('#shippingLastName').val(response.address.last_name || '');
+                    $('#shippingCountry').val(response.address.country || '');
+                    $('#shippingStreet').val(response.address.street_address || '');
+                    $('#shippingCity').val(response.address.city || '');
+                    $('#shippingState').val(response.address.province || '');
+                    $('#shippingZip').val(response.address.zip_code || '');
+                    $('#shippingPhone').val(response.address.phone_number || '');
+                }
+
+            },
+            error: function(xhr, status, error) {
+                console.error('Error getting user:', xhr.responseJSON);
+            }
+        });
+
+        if (user.customer.first_name && user.customer.last_name) {
+            $('#profileName').html(`${user.customer.first_name} ${user.customer.last_name}`);
+            $('#userName').text(`${user.customer.first_name} ${user.customer.last_name}`);
+        }else {
+            $('#profileName').html("-");
+        }
+        $('#first_name').val(user.customer.first_name || '');
+        $('#last_name').val(user.customer.last_name || '');
+        $('#email').val(user.customer.email || '');
+        $('#phone_number').val(user.customer.phone_number || '');
+        $('#userName').text(`${user.customer.first_name || ''} ${user.customer.last_name || ''}`);
+        $('#userEmail').text(user.customer.email || '');
+}
     indicator.style.width = item.getBoundingClientRect().width + "px";
     indicator.style.left =
       item.getBoundingClientRect().left -
@@ -815,6 +856,7 @@ itemActive.forEach((item) => {
 
 tabItems.forEach((item) => {
   item.addEventListener("click", () => {
+    console.log(item);
     let indicator = item.parentElement.querySelector(".indicator");
     if (indicator) {
       indicator.style.width = item.getBoundingClientRect().width + "px";
@@ -3492,45 +3534,7 @@ if (paymentCheckbox) {
 }
 
 // faqs
-const menuTab = document.querySelector(".menu-tab");
-const listQuestion = document.querySelector(".list-question");
-const tabQuestions = document.querySelectorAll(".tab-question");
-const questionItems = document.querySelectorAll(".question-item");
 
-if (tabItems) {
-  tabItems.forEach((tabItem) => {
-    tabQuestions.forEach((tabQuestion) => {
-      let activeMenuTab = menuTab.querySelector(".active");
-
-      if (
-        activeMenuTab.getAttribute("data-item") ===
-        tabQuestion.getAttribute("data-item")
-      ) {
-        tabQuestion.classList.add("active");
-      }
-
-      tabItem.addEventListener("click", () => {
-        if (
-          tabItem.getAttribute("data-item") ===
-          tabQuestion.getAttribute("data-item")
-        ) {
-          listQuestion.querySelector(".active").classList.remove("active");
-          tabQuestion.classList.add("active");
-        }
-      });
-    });
-  });
-}
-
-if (questionItems) {
-  questionItems.forEach((item, index) => {
-    item.addEventListener("click", () => {
-      item.classList.toggle("open");
-
-      removeOpen(index);
-    });
-  });
-}
 
 function removeOpen(index1) {
   questionItems.forEach((item2, index2) => {
@@ -3706,3 +3710,66 @@ function fetchCartCount() {
 }
 
 fetchCartCount();
+
+// Change active category
+const categoryItems2 = document.querySelectorAll(".list-category .category-item");
+const filterItems2 = document.querySelectorAll(".list-filter .filter-item");
+
+if (categoryItems2) {
+  categoryItems2.forEach((category) => {
+    category.addEventListener("click", () => {
+      filterItems2.forEach((item) => {
+        if (
+          item.getAttribute("data-item") === category.getAttribute("data-item")
+        ) {
+          category.closest('.list-category').querySelector(".category-item.active").classList.remove("active");
+          category.classList.add("active");
+          item.closest('.list-filter').querySelector(".filter-item.active").classList.remove("active");
+          item.classList.add("active");
+        }
+      });
+    });
+  });
+}
+
+const tabBtn = document.querySelectorAll(".tab_btn");
+const formAddress = document.querySelectorAll(".form_address");
+
+if (tabBtn) {
+  tabBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      formAddress.forEach((form) => {
+        if (form.getAttribute("data-item") === btn.getAttribute("data-item")) {
+          btn.closest('.tab_address').querySelector(".tab_btn.active").classList.remove("active");
+          btn.classList.add("active");
+          form.closest('.tab_address').querySelector(".form_address.active").classList.remove("active");
+          form.classList.add("active");
+        }
+      });
+    });
+  });
+}
+
+// Modal Order detail
+const btnOrderDetail = document.querySelectorAll(".btn_order_detail");
+const modalOrderDetail = document.querySelector(".modal-order-detail-block");
+const modalOrderDetailMain = document.querySelector(
+  ".modal-order-detail-block .modal-order-detail-main"
+);
+
+if (btnOrderDetail && modalOrderDetail) {
+  btnOrderDetail.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      modalOrderDetailMain.classList.add("open");
+    });
+  });
+
+  modalOrderDetail.addEventListener("click", () => {
+    modalOrderDetailMain.classList.remove("open");
+  });
+
+  modalOrderDetailMain.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+}
+

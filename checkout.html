@@ -12,7 +12,7 @@
     </head>
 
     <body>
-        <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px]">
+        <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px] hidden">
             <div class="container mx-auto h-full">
                 <div class="top-nav-main flex justify-between max-md:justify-center h-full">
                     <div class="left-content flex items-center gap-5 max-md:hidden">
@@ -1002,8 +1002,8 @@
                                                             </li>
                                                             <li>
                                                                 <a href="shop-collection.html" class="link text-secondary duration-300"> Shop Collection </a>
-                                                            </li>
-                                                        </ul>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                     <div class="nav-item">
                                                         <div class="text-button-uppercase pb-1">Shop Features</div>
@@ -1019,8 +1019,8 @@
                                                             </li>
                                                             <li>
                                                                 <a href="shop-sidebar-list.html" class="link text-secondary duration-300"> Shop Sidebar List </a>
-                                                            </li>
-                                                        </ul>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                     <div class="nav-item">
                                                         <div class="text-button-uppercase pb-1">Shop Layout</div>
@@ -1039,8 +1039,8 @@
                                                             </li>
                                                             <li>
                                                                 <a href="shop-square.html" class="link text-secondary duration-300"> Shop Square </a>
-                                                            </li>
-                                                        </ul>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                     <div class="nav-item">
                                                         <div class="text-button-uppercase pb-1">Products Pages</div>
@@ -1065,8 +1065,8 @@
                                                             </li>
                                                             <li>
                                                                 <a href="my-account.html" class="link text-secondary duration-300"> My Account </a>
-                                                            </li>
-                                                        </ul>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1305,10 +1305,10 @@
             <div class="container">
                 <div class="content-main flex max-lg:flex-col-reverse gap-y-10 justify-between">
                     <div class="left lg:w-1/2">
-                        <div class="login bg-surface py-3 px-4 flex justify-between rounded-lg">
+                        <!-- <div class="login bg-surface py-3 px-4 flex justify-between rounded-lg">
                             <div class="left flex items-center"><span class="text-on-surface-variant1 pr-4">Already have an account? </span><span class="text-button text-on-surface hover-underline cursor-pointer hover:underline">Login</span></div>
                             <div class="right"><i class="ph ph-caret-down fs-20 cursor-pointer"></i></div>
-                        </div>
+                        </div> -->
                         <div class="form-login-block mt-3">
                             <form class="p-5 border border-line rounded-lg">
                                 <div class="grid sm:grid-cols-2 gap-5">
@@ -1327,55 +1327,47 @@
                         <div class="information mt-5">
                             <div class="heading5">Information</div>
                             <div class="form-checkout mt-5">
-                                <form>
-                                    <div class="grid sm:grid-cols-2 gap-4 gap-y-5 flex-wrap">
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="firstName" type="text" placeholder="First Name *" required />
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="lastName" type="text" placeholder="Last Name *" required />
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="email" type="email" placeholder="Email Address *" required />
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="phoneNumber" type="number" placeholder="Phone Numbers *" required />
-                                        </div>
-                                        <div class="col-span-full select-block">
-                                            <select class="border border-line px-4 py-3 w-full rounded-lg" id="region" name="region">
-                                                <option value="default">Choose Country/Region</option>
-                                                <option value="India">India</option>
-                                                <option value="France">France</option>
-                                                <option value="Singapore">Singapore</option>
-                                            </select>
-                                            <i class="ph ph-caret-down arrow-down"></i>
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="city" type="text" placeholder="Town/City *" required />
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="apartment" type="text" placeholder="Street,..." required />
-                                        </div>
-                                        <div class="select-block">
-                                            <select class="border border-line px-4 py-3 w-full rounded-lg" id="country" name="country">
-                                                <option value="default">Choose State</option>
-                                                <option value="India">India</option>
-                                                <option value="France">France</option>
-                                                <option value="Singapore">Singapore</option>
-                                            </select>
-                                            <i class="ph ph-caret-down arrow-down"></i>
-                                        </div>
-                                        <div class="">
-                                            <input class="border-line px-4 py-3 w-full rounded-lg" id="postal" type="text" placeholder="Postal Code *" required />
-                                        </div>
-                                        <div class="col-span-full">
-                                            <textarea class="border border-line px-4 py-3 w-full rounded-lg" id="note" name="note" placeholder="Write note..."></textarea>
+                                <form id="checkoutForm">
+                                    <div class="form_address active" data-item="shipping">
+                                        <div class="grid sm:grid-cols-2 gap-4 gap-y-5 mt-5">
+                                            <div class="first-name">
+                                                <label for="shippingFirstName" class="caption1 capitalize">First Name <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingFirstName" type="text" required="">
+                                            </div>
+                                            <div class="last-name">
+                                                <label for="shippingLastName" class="caption1 capitalize">Last Name <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingLastName" type="text" required="">
+                                            </div>
+                                            <div class="country">
+                                                <label for="shippingCountry" class="caption1 capitalize">Country / Region <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingCountry" type="text" required="">
+                                            </div>
+                                            <div class="street">
+                                                <label for="shippingStreet" class="caption1 capitalize">street address <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingStreet" type="text" required="">
+                                            </div>
+                                            <div class="city">
+                                                <label for="shippingCity" class="caption1 capitalize">Town / city <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingCity" type="text" required="">
+                                            </div>
+                                            <div class="state">
+                                                <label for="shippingState" class="caption1 capitalize">state <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingState" type="text" required="">
+                                            </div>
+                                            <div class="zip">
+                                                <label for="shippingZip" class="caption1 capitalize">ZIP <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingZip" type="text" required="">
+                                            </div>
+                                            <div class="phone">
+                                                <label for="shippingPhone" class="caption1 capitalize">Phone <span class="text-red">*</span></label>
+                                                <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingPhone" type="text" required="">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="payment-block md:mt-10 mt-6">
                                         <div class="heading5">Choose payment Option:</div>
                                         <div class="list-payment mt-5">
-                                            <div class="type bg-surface p-5 border border-line rounded-lg">
+                                            <div class="type bg-surface p-5 border border-line rounded-lg hidden">
                                                 <input class="cursor-pointer" type="radio" id="credit" name="payment" />
                                                 <label class="text-button pl-2 cursor-pointer" for="credit">Credit Card</label>
                                                 <div class="infor">
@@ -1401,9 +1393,9 @@
                                                 </div>
                                             </div>
                                             <div class="type bg-surface p-5 border border-line rounded-lg mt-5">
-                                                <input class="cursor-pointer" type="radio" id="delivery" name="payment" />
+                                                <input class="cursor-pointer" type="radio" id="delivery" name="payment" checked/>
                                                 <label class="text-button pl-2 cursor-pointer" for="delivery">Cash on delivery</label>
-                                                <div class="infor">
+                                                <div class="infor hidden">
                                                     <div class="text-on-surface-variant1 pt-4">Make your payment directly into our bank account. Your order will not be shipped until the funds have cleared in our account.</div>
                                                     <div class="row">
                                                         <div class="col-12 mt-3">
@@ -1425,7 +1417,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="type bg-surface p-5 border border-line rounded-lg mt-5">
+                                            <div class="type bg-surface p-5 border border-line rounded-lg mt-5 hidden">
                                                 <input class="cursor-pointer" type="radio" id="apple" name="payment" />
                                                 <label class="text-button pl-2 cursor-pointer" for="apple">Apple Pay</label>
                                                 <div class="infor">
@@ -1450,7 +1442,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="type bg-surface p-5 border border-line rounded-lg mt-5">
+                                            <div class="type bg-surface p-5 border border-line rounded-lg mt-5 hidden">
                                                 <input class="cursor-pointer" type="radio" id="paypal" name="payment" />
                                                 <label class="text-button pl-2 cursor-pointer" for="paypal">PayPal</label>
                                                 <div class="infor">
@@ -2442,5 +2434,122 @@
         <script src="./assets/js/swiper-bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script type="module" src="./assets/js/main.js"></script>
+        <script type="module">
+            import { API_URL } from './assets/js/custom.js';
+            import $ from "jquery";
+
+            $(document).ready(function() {
+                const user = JSON.parse(localStorage.getItem('user'));
+                const token = user ? user.token : null;
+
+                if (!user) {
+                    window.location.href = '/login.html';
+                } else {
+                    $.ajax({
+                        url: `${API_URL}/customer/profile`,
+                        type: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        success: function(response) {
+                            if (response.address) {
+                            response.address = response.address[0];
+                            console.log(response.address);
+                            $('#shippingFirstName').val(response.address.first_name || '');
+                            $('#shippingLastName').val(response.address.last_name || '');
+                            $('#shippingCountry').val(response.address.country || '');
+                            $('#shippingStreet').val(response.address.street_address || '');
+                            $('#shippingCity').val(response.address.city || '');
+                            $('#shippingState').val(response.address.province || '');
+                            $('#shippingZip').val(response.address.zip_code || '');
+                            $('#shippingPhone').val(response.address.phone_number || '');
+                        }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching profile:', xhr.responseJSON);
+                        }
+                    });
+
+                    $.ajax({
+                        url: `${API_URL}/cart`,
+                        type: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        success: function(response) {
+                            const cartItems = response;
+                            console.log(response)
+                            let total = 0;
+                            cartItems.forEach(item => {
+                                let price = item.discounted_price ? item.discounted_price : item.price;
+                                const productHtml = `
+                                    <div class="item flex items-center justify-between w-full pb-5 border-b border-line gap-6 mt-5">
+                                        <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
+                                            <img src="${item.images[0].image}" alt="img" class="">
+                                        </div>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div>
+                                                <div class="name text-title">${item.name}</div>
+                                            </div>
+                                            <div class="text-title">
+                                                <span class="quantity">${item.pivot.quantity}</span>
+                                                <span class="px-1">x</span>
+                                                <span>
+                                                    $${(price)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                $('.list-product-checkout').append(productHtml);
+                                total += price * item.pivot.quantity;
+                            });
+                            $('.total-cart').text(`$${total.toFixed(2)}`);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching cart items:', xhr.responseJSON);
+                        }
+                    });
+
+                    $('#checkoutForm').on('submit', function(event) {
+                        event.preventDefault();
+                        const formData = {
+                            first_name: $('#shippingFirstName').val(),
+                            last_name: $('#shippingLastName').val(),
+                            country: $('#shippingCountry').val(),
+                            street_address: $('#shippingStreet').val(),
+                            city: $('#shippingCity').val(),
+                            province: $('#shippingState').val(),
+                            zip_code: $('#shippingZip').val(),
+                            phone_number: $('#shippingPhone').val(),
+                            note: $('#note').val(),
+                            paymentMethod: 'cod'
+                        };
+
+                    
+
+                        $.ajax({
+                            url: `${API_URL}/checkout/store`,
+                            type: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            data: JSON.stringify(formData),
+                            contentType: 'application/json',
+                            success: function(response) {
+                                alert('Order placed successfully!');
+                                window.location.href = '/order-confirmation.html';
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error placing order:', xhr.responseJSON);
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

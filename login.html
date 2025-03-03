@@ -4,6 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Anvogue - Login</title>
+        <script>
+            var user = localStorage.getItem('user');
+            if (user) {
+                window.location.href = '/dashboard.html';
+            }
+        </script>
         <link rel="shortcut icon" href="./assets/images/fav.png" type="image/x-icon" />
         <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css" />
         <link rel="stylesheet" href="./assets/css/style.css" />
@@ -12,7 +18,7 @@
     </head>
 
     <body>
-        <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px]">
+        <div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px] hidden">
             <div class="container mx-auto h-full">
                 <div class="top-nav-main flex justify-between max-md:justify-center h-full">
                     <div class="left-content flex items-center gap-5 max-md:hidden">
