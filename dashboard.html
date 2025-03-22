@@ -1677,59 +1677,11 @@
                     </div>
                     <div class="filter-item tab_address text-content w-full p-7 border border-line rounded-xl" data-item="address">
                         <form id="addressForm">
-                            <button type="button" class="tab_btn flex items-center justify-between w-full pb-1.5 border-b border-line active" data-item="billing">
-                                <strong class="heading6">Billing address</strong>
-                                <span class="ph ph-caret-down text-2xl ic_down duration-300"></span>
-                            </button>
-                            <div class="form_address active" data-item="billing">
-                                <div class="grid sm:grid-cols-2 gap-4 gap-y-5 mt-5">
-                                    <div class="first-name">
-                                        <label for="billingFirstName" class="caption1 capitalize">First Name <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingFirstName" type="text" required="">
-                                    </div>
-                                    <div class="last-name">
-                                        <label for="billingLastName" class="caption1 capitalize">Last Name <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingLastName" type="text" required="">
-                                    </div>
-                                    <div class="company">
-                                        <label for="billingCompany" class="caption1 capitalize">Company name (optional)</label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingCompany" type="text" required="">
-                                    </div>
-                                    <div class="country">
-                                        <label for="billingCountry" class="caption1 capitalize">Country / Region <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingCountry" type="text" required="">
-                                    </div>
-                                    <div class="street">
-                                        <label for="billingStreet" class="caption1 capitalize">street address <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingStreet" type="text" required="">
-                                    </div>
-                                    <div class="city">
-                                        <label for="billingCity" class="caption1 capitalize">Town / city <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingCity" type="text" required="">
-                                    </div>
-                                    <div class="state">
-                                        <label for="billingState" class="caption1 capitalize">state <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingState" type="text" required="">
-                                    </div>
-                                    <div class="zip">
-                                        <label for="billingZip" class="caption1 capitalize">ZIP <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingZip" type="text" required="">
-                                    </div>
-                                    <div class="phone">
-                                        <label for="billingPhone" class="caption1 capitalize">Phone <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingPhone" type="text" required="">
-                                    </div>
-                                    <div class="email">
-                                        <label for="billingEmail" class="caption1 capitalize">Email <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="billingEmail" type="email" required="">
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="tab_btn flex items-center justify-between w-full mt-10 pb-1.5 border-b border-line" data-item="shipping">
+                            <button type="button" class="tab_btn flex items-center justify-between w-full pb-1.5 border-b border-line active" data-item="shipping">
                                 <strong class="heading6">Shipping address</strong>
                                 <span class="ph ph-caret-down text-2xl ic_down duration-300"></span>
                             </button>
-                            <div class="form_address" data-item="shipping">
+                            <div class="form_address active" data-item="shipping">
                                 <div class="grid sm:grid-cols-2 gap-4 gap-y-5 mt-5">
                                     <div class="first-name">
                                         <label for="shippingFirstName" class="caption1 capitalize">First Name <span class="text-red">*</span></label>
@@ -1739,24 +1691,25 @@
                                         <label for="shippingLastName" class="caption1 capitalize">Last Name <span class="text-red">*</span></label>
                                         <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingLastName" type="text" required="">
                                     </div>
-                                    <div class="company">
-                                        <label for="shippingCompany" class="caption1 capitalize">Company name (optional)</label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingCompany" type="text" required="">
-                                    </div>
                                     <div class="country">
                                         <label for="shippingCountry" class="caption1 capitalize">Country / Region <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingCountry" type="text" required="">
+                                        <div class="select-block mt-2">
+                                            <select class="border border-line px-4 py-3 w-full rounded-lg" id="gender" name="gender">
+                                                <option value="default" disabled="" selected="">Choose Country</option>
+                                                <option value="Philippines">Philippines</option>
+                                                </select>   
+                                        </div>
                                     </div>
                                     <div class="street">
-                                        <label for="shippingStreet" class="caption1 capitalize">street address <span class="text-red">*</span></label>
+                                        <label for="shippingStreet" class="caption1 capitalize">Street Address <span class="text-red">*</span></label>
                                         <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingStreet" type="text" required="">
                                     </div>
                                     <div class="city">
-                                        <label for="shippingCity" class="caption1 capitalize">Town / city <span class="text-red">*</span></label>
+                                        <label for="shippingCity" class="caption1 capitalize">Town / City <span class="text-red">*</span></label>
                                         <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingCity" type="text" required="">
                                     </div>
                                     <div class="state">
-                                        <label for="shippingState" class="caption1 capitalize">state <span class="text-red">*</span></label>
+                                        <label for="shippingState" class="caption1 capitalize">Province <span class="text-red">*</span></label>
                                         <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingState" type="text" required="">
                                     </div>
                                     <div class="zip">
@@ -1766,10 +1719,6 @@
                                     <div class="phone">
                                         <label for="shippingPhone" class="caption1 capitalize">Phone <span class="text-red">*</span></label>
                                         <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingPhone" type="text" required="">
-                                    </div>
-                                    <div class="email">
-                                        <label for="shippingEmail" class="caption1 capitalize">Email <span class="text-red">*</span></label>
-                                        <input class="border-line mt-2 px-4 py-3 w-full rounded-lg" id="shippingEmail" type="email" required="">
                                     </div>
                                 </div>
                             </div>
@@ -2893,31 +2842,16 @@
             }
 
             $('#addressForm').on('submit', function(event) {
-                event.preventDefault();
-
-                const billingAddress = {
-                    first_name: $('#billingFirstName').val(),
-                    last_name: $('#billingLastName').val(),
-                    company: $('#billingCompany').val(),
-                    country: $('#billingCountry').val(),
-                    street: $('#billingStreet').val(),
-                    city: $('#billingCity').val(),
-                    state: $('#billingState').val(),
-                    zip: $('#billingZip').val(),
-                    phone: $('#billingPhone').val(),
-                    email: $('#billingEmail').val()
-                };
-
                 const shippingAddress = {
                     first_name: $('#shippingFirstName').val(),
                     last_name: $('#shippingLastName').val(),
                     company: $('#shippingCompany').val(),
                     country: $('#shippingCountry').val(),
-                    street: $('#shippingStreet').val(),
+                    street_address: $('#shippingStreet').val(),
                     city: $('#shippingCity').val(),
-                    state: $('#shippingState').val(),
-                    zip: $('#shippingZip').val(),
-                    phone: $('#shippingPhone').val(),
+                    province: $('#shippingState').val(),
+                    zip_code: $('#shippingZip').val(),
+                    phone_number: $('#shippingPhone').val(),
                     email: $('#shippingEmail').val()
                 };
 
@@ -2929,7 +2863,7 @@
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    data: JSON.stringify({ billing_address: billingAddress, shipping_address: shippingAddress }),
+                    data: JSON.stringify(shippingAddress),
                     success: function(response) {
                         console.log('Address updated successfully:', response);
                         alert('Address updated successfully');
@@ -2991,10 +2925,24 @@
 
         });
 
-        function renderProfile(user) {
-            token = user.token;
+        // Add functionality for filtering orders
+        $('.tab-item').on('click', function() {
+            const filter = $(this).text().toLowerCase(); // Get the filter type (all, pending, delivery, etc.)
+            $('.tab-item').removeClass('active'); // Remove active class from all tabs
+            $(this).addClass('active'); // Add active class to the clicked tab
 
-            console.log('Token:', user);
+            $('.order_item').each(function() {
+                const status = $(this).find('.tag').text().toLowerCase(); // Get the order status
+                if (filter === 'all' || status.includes(filter)) {
+                    $(this).show(); // Show orders matching the filter
+                } else {
+                    $(this).hide(); // Hide orders not matching the filter
+                }
+            });
+        });
+
+        function renderProfile(user) {
+            var token = user.token;
             $.ajax({
                     url: `${API_URL}/customer/profile`,
                     type: 'GET',
@@ -3003,26 +2951,41 @@
                         'Authorization': `Bearer ${token}`
                     },
                     success: function(response) {
+                        console.log(response)
+                        user.customer = response
+                        user.address = response.address[0];
+                        localStorage.setItem('user', JSON.stringify(user));
+                        if (user.customer.first_name && user.customer.last_name) {
+                            $('#profileName').html(`${user.customer.first_name} ${user.customer.last_name}`);
+                            $('#userName').text(`${user.customer.first_name} ${user.customer.last_name}`);
+                        }else {
+                            $('#profileName').html("-");
+                        }
+                        $('#first_name').val(user.customer.first_name || '');
+                        $('#last_name').val(user.customer.last_name || '');
+                        $('#email').val(user.customer.email || '');
+                        $('#phone_number').val(user.customer.phone_number || '');
+                        $('#userName').text(`${user.customer.first_name || ''} ${user.customer.last_name || ''}`);
+                        $('#userEmail').text(user.customer.email || '');
 
-                        // renderUser();
+                        // Set shipping address fields
+                        if (user.address) {
+                            $('#shippingFirstName').val(user.address.first_name || '');
+                            $('#shippingLastName').val(user.address.last_name || '');
+                            $('#shippingCountry').val(user.address.country || 'Philippines');
+                            $('#shippingStreet').val(user.address.street_address || '');
+                            $('#shippingCity').val(user.address.city || '');
+                            $('#shippingState').val(user.address.province || '');
+                            $('#shippingZip').val(user.address.zip_code || '');
+                            $('#shippingPhone').val(user.address.phone_number || '');
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error('Error getting user:', xhr.responseJSON);
                     }
                 });
 
-                if (user.customer.first_name && user.customer.last_name) {
-                    $('#profileName').html(`${user.customer.first_name} ${user.customer.last_name}`);
-                    $('#userName').text(`${user.customer.first_name} ${user.customer.last_name}`);
-                }else {
-                    $('#profileName').html("-");
-                }
-                $('#first_name').val(user.customer.first_name || '');
-                $('#last_name').val(user.customer.last_name || '');
-                $('#email').val(user.customer.email || '');
-                $('#phone_number').val(user.customer.phone_number || '');
-                $('#userName').text(`${user.customer.first_name || ''} ${user.customer.last_name || ''}`);
-                $('#userEmail').text(user.customer.email || '');
+                
         }
 
         });

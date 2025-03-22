@@ -3348,12 +3348,12 @@ const handleInforCart = () => {
                     <div
                         class="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <i class="ph-bold ph-minus cursor-pointer text-base max-md:text-sm"></i>
-                        <div class="text-button quantity">${product.pivot.quantity}</div>
+                        <div class="text-button quantity">₱ {product.pivot.quantity}</div>
                         <i class="ph-bold ph-plus cursor-pointer text-base max-md:text-sm"></i>
                     </div>
                 </div>
                 <div class="w-1/6 flex total-price items-center justify-center">
-                    <div class="text-title text-center">$${productPrice}.00
+                    <div class="text-title text-center">₱ ${productPrice}.00
                     </div>
                 </div>
                 <div class="w-1/12 flex items-center justify-center">
@@ -3371,7 +3371,7 @@ const handleInforCart = () => {
       quantityBlock.querySelector(".ph-plus").addEventListener("click", () => {
         product.pivot.quantity++;
         quantityProduct.textContent = product.pivot.quantity;
-        totalPriceProduct.textContent = `$${product.pivot.quantity * productPrice
+        totalPriceProduct.textContent = `₱ ${product.pivot.quantity * productPrice
           }.00`;
         updateTotalCart();
 
@@ -3438,56 +3438,56 @@ const handleInforCart = () => {
 handleInforCart();
 
 // Checkout
-if (listProductCheckout) {
-  let cartStore = localStorage.getItem("cartStore");
-  cartStore = cartStore ? JSON.parse(cartStore) : [];
-  let totalCart = 0;
+// if (listProductCheckout) {
+//   let cartStore = localStorage.getItem("cartStore");
+//   cartStore = cartStore ? JSON.parse(cartStore) : [];
+//   let totalCart = 0;
 
-  cartStore.forEach((product) => {
-    const productElement = document.createElement("div");
-    productElement.classList.add(
-      "item",
-      "flex",
-      "items-center",
-      "justify-between",
-      "w-full",
-      "pb-5",
-      "border-b",
-      "border-line",
-      "gap-6",
-      "mt-5"
-    );
-    productElement.innerHTML = `
-            <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                <img src=${product.thumbImage[0]} alt='img'
-                    class='w-full h-full' />
-            </div>
-            <div class="flex items-center justify-between w-full">
-                <div>
-                    <div class="name text-title">${product.name}</div>
-                    <div class="caption1 text-secondary mt-2">
-                        <span class='size capitalize'>${product.sizes[0]}</span>
-                        <span>/</span>
-                        <span class='color capitalize'>${product.variation[0].color}</span>
-                    </div>
-                </div>
-                <div class="text-title">
-                    <span class='quantity'>${product.pivot.quantity}</span>
-                    <span class='px-1'>x</span>
-                    <span>
-                        $${productPrice}.00
-                    </span>
-                </div>
-            </div>
-        `;
+//   cartStore.forEach((product) => {
+//     const productElement = document.createElement("div");
+//     console.log(product);
+//     let productPrice = product.discounted_price ? product.discounted_price : productPrice;
+//     productElement.classList.add(
+//       "item",
+//       "flex",
+//       "items-center",
+//       "justify-between",
+//       "w-full",
+//       "pb-5",
+//       "border-b",
+//       "border-line",
+//       "gap-6",
+//       "mt-5"
+//     );
+//     productElement.innerHTML = `
+//             <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
+//                 <img src=${product.images[0].image} alt='img'
+//                     class='w-full h-full' />
+//             </div>
+//             <div class="flex items-center justify-between w-full">
+//                 <div>
+//                     <div class="name text-title">${product.name}</div>
+//                     <div class="caption1 text-secondary mt-2">
+//                         <span class='size capitalize '><s>₱ ${product.price}</s></span>
+//                     </div>
+//                 </div>
+//                 <div class="text-title">
+//                     <span class='quantity'>${product.pivot.quantity}</span>
+//                     <span class='px-1'>x</span>
+//                     <span>
+//                         ₱ ${productPrice}
+//                     </span>
+//                 </div>
+//             </div>
+//         `;
 
-    listProductCheckout.appendChild(productElement);
-    totalCart += productPrice * product.pivot.quantity;
-    document.querySelector(
-      ".total-cart-block .total-cart"
-    ).innerHTML = `$${totalCart}.00`;
-  });
-}
+//     listProductCheckout.appendChild(productElement);
+//     totalCart += productPrice * product.pivot.quantity;
+//     document.querySelector(
+//       ".total-cart-block .total-cart"
+//     ).innerHTML = `₱ ${totalCart}.00`;
+//   });
+// }
 
 // Show, hide login block in checkout
 const formLoginHeading = document.querySelector(
