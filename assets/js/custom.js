@@ -1,1 +1,1 @@
-export const API_URL = 'https://starter-kit.test/api';
+export const API_URL = 'https://jhayao.dev/api';
