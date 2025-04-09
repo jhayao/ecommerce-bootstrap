@@ -154,23 +154,23 @@ const modalNewsletterMain = document.querySelector(
 const closeBtnModalNewsletter = document.querySelector(".modal-newsletter .close-newsletter-btn");
 
 
-if (modalNewsletter) {
-  setTimeout(() => {
-    modalNewsletterMain.classList.add('open')
-  }, 3000);
+// if (modalNewsletter) {
+//   setTimeout(() => {
+//     modalNewsletterMain.classList.add('open')
+//   }, 3000);
 
-  modalNewsletter.addEventListener('click', () => {
-    modalNewsletterMain.classList.remove('open')
-  })
+//   modalNewsletter.addEventListener('click', () => {
+//     modalNewsletterMain.classList.remove('open')
+//   })
 
-  closeBtnModalNewsletter.addEventListener('click', () => {
-    modalNewsletterMain.classList.remove('open')
-  })
+//   closeBtnModalNewsletter.addEventListener('click', () => {
+//     modalNewsletterMain.classList.remove('open')
+//   })
 
-  modalNewsletterMain.addEventListener('click', (e) => {
-    e.stopPropagation()
-  })
-}
+//   modalNewsletterMain.addEventListener('click', (e) => {
+//     e.stopPropagation()
+//   })
+// }
 
 // Modal Search
 const searchIcon = document.querySelector(".search-icon");
@@ -856,7 +856,6 @@ itemActive.forEach((item) => {
 
 tabItems.forEach((item) => {
   item.addEventListener("click", () => {
-    console.log(item);
     let indicator = item.parentElement.querySelector(".indicator");
     if (indicator) {
       indicator.style.width = item.getBoundingClientRect().width + "px";
@@ -3692,20 +3691,28 @@ function fetchCartCount() {
     }
 
     fetch(URL, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
     })
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 401) {
+        console.warn('Unauthorized access. Clearing local storage.');
+        localStorage.clear();
+        return Promise.reject('Unauthorized access');
+      }
+      return response.json();
+    })
     .then(data => {
-        console.log('Cart count:', data);
-        document.querySelector('.cart-quantity').textContent = data.count;
+      console.log(data);
+      console.log('Cart count:', data);
+      document.querySelector('.cart-quantity').textContent = data.count;
     })
     .catch(error => {
-        console.error('Error fetching cart count:', error);
+      console.error('Error fetching cart count:', error);
     });
 }
 
