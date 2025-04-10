@@ -16,7 +16,7 @@ $(document).ready(function() {
 
         if (sidebarMain.length) {
             sidebar.on('click', function() {
-                sidebar.removeClass('open');
+                sidebar.removeClass('open')
             });
 
             sidebarMain.on('click', function(e) {
