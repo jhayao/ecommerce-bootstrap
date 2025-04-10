@@ -1,5 +1,5 @@
 import { API_URL } from './custom.js';
-import $ from "jquery";
+
 
 $(document).ready(function() {
     $('#registerForm').on('submit', function(event) {

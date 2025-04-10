@@ -1,6 +1,7 @@
 import { API_URL } from './custom.js';
 import { addEventToProductItem } from './main.js'
 
+
 // Sidebar
 $(document).ready(function() {
     const filterSidebarBtn = $('.filter-sidebar-btn');
