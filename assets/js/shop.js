@@ -488,11 +488,8 @@ $(document).ready(function() {
                             <div class="product-img w-full h-full aspect-[3/4]">
                                 ${productImages}
                             </div>
-                            <div class="list-action grid grid-cols-2 gap-3 px-5 absolute w-full bottom-5 max-lg:hidden">
-                                <div class="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
-                                    <span class="max-lg:hidden">Quick View</span>
-                                    <i class="ph ph-eye lg:hidden text-xl"></i>
-                                </div>
+                            <div class="list-action grid grid-cols-2 gap-3 px-5 text-align-center absolute w-full bottom-5 max-lg:hidden">
+                            
                                     ${product.action === 'add to cart' ? (
                     `
                                         <div

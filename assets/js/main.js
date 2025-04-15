@@ -290,7 +290,7 @@ loginIcon?.addEventListener("click", () => {
   console.log('test');
   let user = JSON.parse(localStorage.getItem('user'));
   if (user) { 
-    window.location.href = 'my-account.html';
+    window.location.href = 'dashboard.html';
   } else {
     loginPopup.classList.toggle("open");
   }
@@ -526,13 +526,14 @@ const handleItemModalCart = () => {
         console.warn('User is not authenticated. Showing items from local storage.');
         let cartStore = localStorage.getItem("cartStore");
         cartStore = cartStore ? JSON.parse(cartStore) : [];
-
         if (cartStore.length === 0) {
             listItemCart.innerHTML = `<p class='mt-1'>No product in cart</p>`;
         } else {
-            cartStore.forEach((item) => {
+            cartStore.forEach((items) => {
+                const item = items[0];
                 const prdItem = document.createElement("div");
-                prdItem.setAttribute("data-item", item.product_id);
+                prdItem.setAttribute("data-item", item.id);
+                let quantity = item.quantity ?? 1;
                 prdItem.classList.add(
                     "item",
                     "py-5",
@@ -546,7 +547,7 @@ const handleItemModalCart = () => {
                 prdItem.innerHTML = `
                      <div class="infor flex items-center gap-3 w-full">
                         <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                            <img src=${item.images[0].image} alt='product' class='' />
+                            <img src=${item.image} alt='product' class='' />
                         </div>
                         <div class='w-full'>
                             <div class="flex items-center justify-between w-full">
@@ -557,9 +558,9 @@ const handleItemModalCart = () => {
                             </div>
                             <div class="flex items-center justify-between gap-2 mt-3 w-full">
                                 <div class="flex items-center text-secondary2 capitalize">
-                                    <div class="product-price text-title">qty: ${item.quantity}</div>
+                                    <div class="product-price text-title">qty: ${quantity}</div>
                                 </div>
-                                <div class="product-price text-title">$${item.price * item.quantity}</div>
+                                <div class="product-price text-title">$${item.price * quantity}</div>
                             </div>
                         </div>
                     </div>
@@ -1593,7 +1594,7 @@ const createProductItem = (product) => {
   }
 
   let productImages = "";
-  product.thumbImage.forEach((img, index) => {
+  product.images.forEach((img, index) => {
     productImages += `<img key="${index}" class="w-full h-full object-cover duration-700" src="${img}" alt="img">`;
   });
 
@@ -1701,7 +1702,7 @@ const createProductItem = (product) => {
                 </div>
                 <div class="product-name text-title duration-300">${product.name
     }</div>
-                ${product.variation.length > 0 &&
+                ${
       product.action === "add to cart"
       ? `
                         <div class="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
@@ -1720,32 +1721,12 @@ const createProductItem = (product) => {
         .join("")}
                         </div>`
       : `
-                    <div class="list-color list-color-image max-md:hidden flex items-center gap-3 flex-wrap duration-500">
-                        ${product.variation
-        .map(
-          (item, index) =>
-            `
-                            <div
-                                class="color-item w-12 h-12 rounded-xl duration-300 relative"
-                                key="${index}"
-                            >
-                                <img
-                                    src="${item.colorImage}"
-                                    alt='color'
-                                    class='rounded-xl w-full h-full object-cover'
-                                />
-                                <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${item.color}</div>
-                            </div>
-                        `
-        )
-        .join("")}
-                    </div>
-                `
+                    `
     }
         <div
         class="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-        <div class="product-price text-title">$${productPrice}.00</div>
-        ${Math.floor(100 - (productPrice / product.originPrice) * 100) > 0
+        <div class="product-price text-title">₱${product.discounted_price}.00</div>
+        ${Math.floor(100 - (product.discounted_price / product.originPrice) * 100) > 0
       ? `
                 <div class="product-origin-price caption1 text-secondary2">
                     <del>$${product.originPrice}.00</del>
@@ -3282,6 +3263,8 @@ const handleInforCart = () => {
 
     if (!token) {
       console.error('User is not authenticated');
+      //go to login page
+    window.location.href = "login.html";
       return;
     }
     console.log(token);
@@ -3553,11 +3536,12 @@ function addCartItem(productId, quantity) {
         let cartStore = localStorage.getItem("cartStore");
         cartStore = cartStore ? JSON.parse(cartStore) : [];
 
-        const existingIndex = cartStore.findIndex(item => item.id == productId );
+        const existingIndex = cartStore.findIndex(item => item[0].id == productId );
         console.log(existingIndex);
         if (existingIndex > -1) {
             console.log('Item already exists in cart');
-            cartStore[existingIndex].quantity = Number(cartStore[existingIndex].quantity) + Number(quantity);
+
+            cartStore[existingIndex][0].quantity = Number(cartStore[existingIndex][0].quantity ?? 1) + Number(quantity);
         } else {
            $.ajax({
             url: `${API_URL}/products/details/${productId}`,
@@ -3572,6 +3556,7 @@ function addCartItem(productId, quantity) {
             complete: function () {
                 // This runs whether the request succeeds or fails
                 localStorage.setItem("cartStore", JSON.stringify(cartStore));
+
                 handleItemModalCart();
                 openModalCart();
                 fetchCartCount();

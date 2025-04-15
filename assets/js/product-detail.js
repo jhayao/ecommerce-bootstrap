@@ -56,7 +56,7 @@ let typePage = classes[1];
 
 
 if (productDetail) {
-    fetch(`${API_URL}/products/list`, {
+    fetch(`${API_URL}/products/details/${productId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -288,13 +288,13 @@ if (productDetail) {
 
             // infor
             productDetail.querySelector('.product-infor').setAttribute('data-item', productId)
-            productDetail.querySelector('.product-category').innerHTML = productMain.category
+            productDetail.querySelector('.product-category').innerHTML = productMain.category_title
             productDetail.querySelector('.product-name').innerHTML = productMain.name
             productDetail.querySelector('.product-description').innerHTML = productMain.description
-            productDetail.querySelector('.product-price').innerHTML = '$' + productMain.discounted_price 
-            productDetail.querySelector('.product-origin-price').innerHTML = '<del>$' + productMain.price + '</del>'
+            productDetail.querySelector('.product-price').innerHTML = '₱' + productMain.discounted_price 
+            productDetail.querySelector('.product-origin-price').innerHTML = '<del>₱' + productMain.price + '</del>'
             productDetail.querySelector('.product-sale').innerHTML = '-' + Math.floor(100 - ((productMain.discounted_price / productMain.price) * 100)) + '%'
-
+            document.querySelector('#breadcrumb-product').innerHTML = productMain.name
             // productMain.variation.map((item) => {
             //     const colorItem = document.createElement('div')
             //     colorItem.classList.add('color-item', 'w-12', 'h-12', 'rounded-xl', 'duration-300', 'relative')
