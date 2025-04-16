@@ -640,28 +640,25 @@
 
         <!-- Menu bar -->
         <div class="menu_bar fixed bg-white bottom-0 left-0 w-full h-[70px] sm:hidden z-[101]">
-            <div class="menu_bar-inner grid grid-cols-4 items-center h-full">
-                <a href="index.html" class="menu_bar-link flex flex-col items-center gap-1">
-                    <span class="ph-bold ph-house text-2xl block"></span>
-                    <span class="menu_bar-title caption2 font-semibold">Home</span>
-                </a>
-                <a href="shop-filter-canvas.html" class="menu_bar-link flex flex-col items-center gap-1">
-                    <span class="ph-bold ph-list text-2xl block"></span>
-                    <span class="menu_bar-title caption2 font-semibold">Category</span>
-                </a>
-                <a href="search-result.html" class="menu_bar-link flex flex-col items-center gap-1">
-                    <span class="ph-bold ph-magnifying-glass text-2xl block"></span>
-                    <span class="menu_bar-title caption2 font-semibold">Search</span>
-                </a>
-                <a href="cart.html" class="menu_bar-link flex flex-col items-center gap-1">
-                    <div class="cart-icon relative">
-                        <span class="ph-bold ph-handbag text-2xl block"></span>
-                        <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
-                    </div>
-                    <span class="menu_bar-title caption2 font-semibold">Cart</span>
-                </a>
+                <div class="menu_bar-inner grid grid-cols-3 items-center h-full">
+                    <a href="index.html" class="menu_bar-link flex flex-col items-center gap-1">
+                        <span class="ph-bold ph-house text-2xl block"></span>
+                        <span class="menu_bar-title caption2 font-semibold">Home</span>
+                    </a>
+                    
+                    <a href="cart.html" class="menu_bar-link flex flex-col items-center gap-1">
+                        <div class="cart-icon relative">
+                            <span class="ph-bold ph-handbag text-2xl block"></span>
+                            <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">1</span>
+                        </div>
+                        <span class="menu_bar-title caption2 font-semibold">Cart</span>
+                    </a>
+                    <a href="dashboard.html" class="menu_bar-link flex flex-col items-center gap-1">
+                        <span class="ph-bold ph-user text-2xl block"></span>
+                        <span class="menu_bar-title caption2 font-semibold">Account</span>
+                    </a>
+                </div>
             </div>
-        </div>
 
         <div class="breadcrumb-block style-shared">
             <div class="breadcrumb-main bg-linear overflow-hidden">
@@ -696,22 +693,18 @@
                         <div class="menu-tab list-category w-full max-w-none lg:mt-10 mt-6">
                             <a href="#!" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white active" data-item="dashboard">
                                 <span class="ph ph-house-line text-xl"></span>
-                                <strong class="heading6">Dashboard</strong>
+                                <strong class="heading6">History Orders</strong>
                             </a>
                             <a href="#!" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white mt-1.5" data-item="orders">
                                 <span class="ph ph-package text-xl"></span>
-                                <strong class="heading6">History Orders</strong>
+                                <strong class="heading6">My Address</strong>
                             </a>
                             <a href="#!" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white mt-1.5" data-item="address">
                                 <span class="ph ph-tag text-xl"></span>
-                                <strong class="heading6">My Address</strong>
+                                <strong class="heading6">Setting</strong>
                             </a>
                             <a href="#!" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white mt-1.5" data-item="setting">
                                 <span class="ph ph-gear-six text-xl"></span>
-                                <strong class="heading6">Setting</strong>
-                            </a>
-                            <a href="login.html" class="category-item flex items-center gap-3 w-full px-5 py-4 rounded-lg cursor-pointer duration-300 hover:bg-white mt-1.5">
-                                <span class="ph ph-sign-out text-xl"></span>
                                 <strong class="heading6">Logout</strong>
                             </a>
                         </div>
@@ -719,156 +712,6 @@
                 </div>
                 <div class="right list-filter md:w-2/3 w-full pl-2.5">
                     <div class="filter-item text-content w-full active" data-item="dashboard">
-                        <div class="overview grid sm:grid-cols-3 gap-5">
-                            <div class="overview-item flex items-center justify-between p-5 border border-line rounded-lg box-shadow-xs">
-                                <div class="counter">
-                                    <span class="text-secondary">Awaiting Pickup</span>
-                                    <h5 class="heading5 mt-1">4</h5>
-                                </div>
-                                <span class="ph ph-hourglass-medium text-4xl"></span>
-                            </div>
-                            <div class="overview-item flex items-center justify-between p-5 border border-line rounded-lg box-shadow-xs">
-                                <div class="counter">
-                                    <span class="text-secondary">Cancelled Orders</span>
-                                    <h5 class="heading5 mt-1">12</h5>
-                                </div>
-                                <span class="ph ph-receipt-x text-4xl"></span>
-                            </div>
-                            <div class="overview-item flex items-center justify-between p-5 border border-line rounded-lg box-shadow-xs">
-                                <div class="counter">
-                                    <span class="text-secondary">Total Number of Orders</span>
-                                    <h5 class="heading5 mt-1">200</h5>
-                                </div>
-                                <span class="ph ph-package text-4xl"></span>
-                            </div>
-                        </div>
-                        <div class="recent_order pt-5 px-5 pb-2 mt-7 border border-line rounded-xl">
-                            <h6 class="heading6">Recent Orders</h6>
-                            <div class="list overflow-x-auto w-full mt-5">
-                                <table class="w-full max-[1400px]:w-[700px] max-md:w-[700px]">
-                                    <thead class="border-b border-line">
-                                        <tr>
-                                            <th scope="col" class="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap">Order</th>
-                                            <th scope="col" class="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap">Products</th>
-                                            <th scope="col" class="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap">Pricing</th>
-                                            <th scope="col" class="pb-3 text-right text-sm font-bold uppercase text-secondary whitespace-nowrap">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="item duration-300 border-b border-line">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/1-1.png" alt="Contrasting sweatshirt" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">Contrasting sweatshirt</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-yellow text-yellow caption1 font-semibold">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="item duration-300 border-b border-line">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/2-1.png" alt="Faux-leather trousers" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">Faux-leather trousers</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-purple text-purple caption1 font-semibold">Delivery</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="item duration-300 border-b border-line">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/3-1.png" alt="V-neck knitted top" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">V-neck knitted top</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-success text-success caption1 font-semibold">Completed</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="item duration-300 border-b border-line">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/4-1.png" alt="Contrasting sweatshirt" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">Contrasting sweatshirt</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-yellow text-yellow caption1 font-semibold">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="item duration-300 border-b border-line">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/5-1.png" alt="Faux-leather trousers" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">Faux-leather trousers</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-purple text-purple caption1 font-semibold">Delivery</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="item duration-300">
-                                            <th scope="row" class="py-3 text-left">
-                                                <strong class="text-title">54312452</strong>
-                                            </th>
-                                            <td class="py-3">
-                                                <a href="product-default.html" class="product flex items-center gap-3">
-                                                    <img src="./assets/images/product/fashion/6-1.png" alt="V-neck knitted top" class="flex-shrink-0 w-12 h-12 rounded">
-                                                    <div class="info flex flex-col">
-                                                        <strong class="product_name text-button">V-neck knitted top</strong>
-                                                        <span class="product_tag caption1 text-secondary">Women, Clothing</span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="py-3 price">$45.00</td>
-                                            <td class="py-3 text-right">
-                                                <span class="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-red text-red caption1 font-semibold">Canceled</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-item tab_order text-content overflow-hidden w-full p-7 border border-line rounded-xl" data-item="orders">
                         <h6 class="heading6">Your Orders</h6>
                         <div class="w-full overflow-x-auto">
                             <div class="menu-tab relative grid grid-cols-5 max-lg:w-[500px] max-md:max-w-max border-b border-line mt-3">
@@ -883,7 +726,7 @@
                         <div class="list_order">
                         </div>
                     </div>
-                    <div class="filter-item tab_address text-content w-full p-7 border border-line rounded-xl" data-item="address">
+                    <div class="filter-item tab_order text-content overflow-hidden w-full p-7 border border-line rounded-xl" data-item="orders">
                         <form id="addressForm">
                             <button type="button" class="tab_btn flex items-center justify-between w-full pb-1.5 border-b border-line active" data-item="shipping">
                                 <strong class="heading6">Shipping address</strong>
@@ -935,7 +778,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="filter-item setting-tab text-content w-full p-7 border border-line rounded-xl" data-item="setting">
+                    <div class="filter-item tab_address text-content w-full p-7 border border-line rounded-xl" data-item="address">
                         <form>
                             <div class="heading5 pb-4">Information</div>
                             <div class="upload_image col-span-full">
@@ -999,6 +842,9 @@
                                 <button class="button-main">Save Change</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="filter-item setting-tab text-content w-full p-7 border border-line rounded-xl" data-item="setting">
+                       
                     </div>
                 </div>
             </div>
