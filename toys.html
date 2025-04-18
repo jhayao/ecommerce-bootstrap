@@ -357,7 +357,7 @@
                                                                 <a href="order-tracking.html" class="link text-secondary duration-300"> Order Tracking </a>
                                                             </li>
                                                             <li>
-                                                                <a href="my-account.html" class="link text-secondary duration-300"> My Account </a>
+                                                                <a href="dashboard.html" class="link text-secondary duration-300"> My Account </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -972,7 +972,7 @@
                                                                 <a href="order-tracking.html" class="link text-secondary duration-300"> Order Tracking </a>
                                                             </li>
                                                             <li>
-                                                                <a href="my-account.html" class="link text-secondary duration-300"> My Account </a>
+                                                                <a href="dashboard.html" class="link text-secondary duration-300"> My Account </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -1168,25 +1168,22 @@
 
             <!-- Menu bar -->
             <div class="menu_bar fixed bg-white bottom-0 left-0 w-full h-[70px] sm:hidden z-[101]">
-                <div class="menu_bar-inner grid grid-cols-4 items-center h-full">
+                <div class="menu_bar-inner grid grid-cols-3 items-center h-full">
                     <a href="index.html" class="menu_bar-link flex flex-col items-center gap-1">
                         <span class="ph-bold ph-house text-2xl block"></span>
                         <span class="menu_bar-title caption2 font-semibold">Home</span>
                     </a>
-                    <a href="shop-filter-canvas.html" class="menu_bar-link flex flex-col items-center gap-1">
-                        <span class="ph-bold ph-list text-2xl block"></span>
-                        <span class="menu_bar-title caption2 font-semibold">Category</span>
-                    </a>
-                    <a href="search-result.html" class="menu_bar-link flex flex-col items-center gap-1">
-                        <span class="ph-bold ph-magnifying-glass text-2xl block"></span>
-                        <span class="menu_bar-title caption2 font-semibold">Search</span>
-                    </a>
+                    
                     <a href="cart.html" class="menu_bar-link flex flex-col items-center gap-1">
                         <div class="cart-icon relative">
                             <span class="ph-bold ph-handbag text-2xl block"></span>
                             <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">1</span>
                         </div>
                         <span class="menu_bar-title caption2 font-semibold">Cart</span>
+                    </a>
+                    <a href="dashboard.html" class="menu_bar-link flex flex-col items-center gap-1">
+                        <span class="ph-bold ph-user text-2xl block"></span>
+                        <span class="menu_bar-title caption2 font-semibold">Account</span>
                     </a>
                 </div>
             </div>
@@ -1732,7 +1729,7 @@
                                     <div class="text-button-uppercase pb-3">Infomation</div>
                                     <a class="caption1 has-line-before duration-300 w-fit" href="contact.html">Contact us </a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!"> Career </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="my-account.html"> My Account</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="dashboard.html"> My Account</a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="order-tracking.html"> Order & Returns</a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="faqs.html">FAQs </a>
                                 </div>
@@ -2220,9 +2217,9 @@
             </div>
         </div>
 
-        <div class="modal-cart-block">
-            <div class="modal-cart-main flex">
-                <div class="left w-1/2 border-r border-line py-6 max-md:hidden">
+        <div class="modal-cart-block" >
+            <div class="modal-cart-main  flex" style="width: 480px !important">
+                <!-- <div class="left w-1/2 border-r border-line py-6 hidden">
                     <div class="heading5 px-6 pb-3">You May Also Like</div>
                     <div class="list px-6">
                         <div class="product-item item py-5 flex items-center justify-between gap-3 border-b border-line" data-item="1">
@@ -2294,15 +2291,15 @@
                             <div class="quick-view-btn button-main py-3 px-5 bg-black hover:bg-green text-white rounded-full whitespace-nowrap">QUICK VIEW</div>
                         </div>
                     </div>
-                </div>
-                <div class="right cart-block md:w-1/2 w-full py-6 relative overflow-hidden">
+                </div> -->
+                <div class="right cart-block  w-full py-6 relative overflow-hidden">
                     <div class="heading px-6 pb-3 flex items-center justify-between relative">
                         <div class="heading5">Shopping Cart</div>
                         <div class="close-btn absolute right-6 top-0 w-6 h-6 rounded-full bg-surface flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white">
                             <i class="ph ph-x text-sm"></i>
                         </div>
                     </div>
-                    <div class="time countdown-cart px-6">
+                    <!-- <div class="time countdown-cart px-6">
                         <div class="flex items-center gap-3 px-5 py-3 bg-green rounded-lg">
                             <p class="text-3xl">🔥</p>
                             <div class="caption1">
@@ -2310,7 +2307,7 @@
                                 Please checkout now before your items sell out!
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="heading banner mt-3 px-6">
                         <div class="text">
                             Buy <span class="text-button"> $<span class="more-price">150</span>.00 </span>
@@ -2321,7 +2318,7 @@
                             <div class="progress-line"></div>
                         </div>
                     </div>
-                    <div class="list-product px-6"></div>
+                    <div class="list-product px-6" style="max-height: fit-content;"></div>
                     <div class="footer-modal bg-white absolute bottom-0 left-0 w-full">
                         <div class="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
                             <div class="note-btn item flex items-center gap-3 cursor-pointer">
@@ -2338,8 +2335,8 @@
                             </div>
                         </div>
                         <div class="flex items-center justify-between pt-6 px-6">
-                            <div class="heading5">Subtotal</div>
-                            <div class="heading5 total-cart">$0.00</div>
+                            
+                            <!-- <div class="heading5 total-cart">$0.00</div> -->
                         </div>
                         <div class="block-button text-center p-6">
                             <div class="flex items-center gap-4">
