@@ -559,7 +559,7 @@ const handleItemModalCart = () => {
                                 <div class="flex items-center text-secondary2 capitalize">
                                     <div class="product-price text-title">qty: ${quantity}</div>
                                 </div>
-                                <div class="product-price text-title">$${item.price * quantity}</div>
+                                <div class="product-price text-title">₱ ${item.price * quantity}</div>
                             </div>
                         </div>
                     </div>
@@ -1660,15 +1660,7 @@ const createProductItem = (product) => {
                                 <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                             </div>
                             <div class="quick-shop-block absolute left-5 right-5 bg-white p-5 rounded-[20px]">
-                                <div class="list-size flex items-center justify-center flex-wrap gap-2">
-                                    ${product.sizes &&
-      product.sizes
-        .map(
-          (size, index) =>
-            `<div key="${index}" class="size-item w-10 h-10 rounded-full flex items-center justify-center text-button bg-white border border-line">${size.trim()}</div>`
-        )
-        .join("")
-      }
+                                
                                 </div >
     <div class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">Add
         To cart</div>
@@ -3302,7 +3294,7 @@ const renderCart = (cartStore) => {
                     </div>
                 </div>
                 <div class="w-1/12 price flex items-center justify-center">
-                    <div class="text-title text-center">$${productPrice}</div>
+                    <div class="text-title text-center">₱ ${productPrice}</div>
                 </div>
                 <div class="w-1/6 flex items-center justify-center">
                     <div
@@ -3329,25 +3321,28 @@ const renderCart = (cartStore) => {
       );
 
       quantityBlock.querySelector(".ph-plus").addEventListener("click", () => {
-        quantity = product.pivot?.quantity ?? product.quantity;
+        console.log(quantity)
         quantity++;
+        
+        updateCartQuantity(product.id, quantity);
+        let temp = localStorage.getItem("cartStore");
+        temp = temp ? JSON.parse(temp) : [];
         quantityProduct.textContent = quantity;
         totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
-        updateTotalCart();
-
-        updateCartQuantity(product.id, quantity);
-
-  
+        updateTotalCart(temp);
       });
 
       quantityBlock.querySelector(".ph-minus").addEventListener("click", () => {
         if (quantity > 1) {
           quantity--;
+          updateCartQuantity(product.id, quantity);
+          let temp = localStorage.getItem("cartStore");
+          temp = temp ? JSON.parse(temp) : [];
           quantityProduct.textContent = quantity;
           totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
-          updateTotalCart();
+          updateTotalCart(temp);
           
-          updateCartQuantity(product.id, quantity);
+          
         }
       });
 
@@ -3359,18 +3354,20 @@ const renderCart = (cartStore) => {
         totalCart;
     });
 
-    const updateTotalCart = () => {
+    const updateTotalCart = (temp) => {
       totalCart = 0;
-      cartStore.forEach((product) => {
+      temp.forEach((product) => {
         let quantity = product.pivot?.quantity ?? product.quantity;
         let productPrice = product.discounted_price ? product.discounted_price : productPrice;
+        console
         totalCart += productPrice * quantity;
+        
       });
       // Change value in cart page
       document.querySelector(".total-block .total-product").innerHTML =
-        totalCart;
+        totalCart.toFixed(2);
       document.querySelector(".total-cart-block .total-cart").innerHTML =
-        totalCart;
+        totalCart.toFixed(2);
      
       console.log(totalCart);
     };
@@ -3610,7 +3607,17 @@ function updateCartQuantity(productId, quantity) {
     const token = user ? user.token : null;
 
     if (!token) {
-        console.error('User is not authenticated');
+        console.log('User is not authenticated');
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || [];
+        const productIndex = cartStore.findIndex((item) => item.id === productId);
+
+        if (productIndex !== -1) {
+            cartStore[productIndex].quantity = quantity;
+        } else {
+            console.warn("Product not found in cartStore.");
+        }
+
+        localStorage.setItem("cartStore", JSON.stringify(cartStore));
         return;
     }
 

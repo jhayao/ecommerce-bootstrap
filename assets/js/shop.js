@@ -511,11 +511,7 @@ $(document).ready(function() {
                                             <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                                         </div>
                                         <div class="quick-shop-block absolute left-5 right-5 bg-white p-5 rounded-[20px]">
-                                            <div class="list-size flex items-center justify-center flex-wrap gap-2">
-                                                ${product.sizes && product.sizes.map((size, index) => (
-                        `<div key="${index}" class="size-item w-10 h-10 rounded-full flex items-center justify-center text-button bg-white border border-line">${size.trim()}</div>`
-                    )).join('')}
-                                            </div >
+                                           
                         <div class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">Add
                             To cart</div>
                                                 </div >
@@ -546,11 +542,11 @@ $(document).ready(function() {
                                     
                             <div
                             class="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-                            <div class="product-price text-title">$${product.price}.00</div>
+                            <div class="product-price text-title">₱${product.price}</div>
                             ${Math.floor(100 - ((product.price / product.originPrice) * 100)) > 0 ? (
                     `
                                     <div class="product-origin-price caption1 text-secondary2">
-                                        <del>$${product.originPrice}.00</del>
+                                        <del>₱${product.originPrice}.00</del>
                                     </div>
                                     <div
                                         class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
