@@ -1,6 +1,6 @@
 import { API_URL } from './custom.js';
 import { addEventToProductItem } from './main.js'
-import $ from "jquery";
+
 
 // Sidebar
 $(document).ready(function() {

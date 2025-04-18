@@ -290,7 +290,7 @@ loginIcon?.addEventListener("click", () => {
   console.log('test');
   let user = JSON.parse(localStorage.getItem('user'));
   if (user) { 
-    window.location.href = 'my-account.html';
+    window.location.href = 'dashboard.html';
   } else {
     loginPopup.classList.toggle("open");
   }
@@ -406,9 +406,9 @@ const handleItemModalWishlist = () => {
                     <div class=''>
                         <div class="name text-button">${item.name}</div>
                         <div class="flex items-center gap-2 mt-2">
-                            <div class="product-price text-title">$${productPrice}.00</div>
+                            <div class="product-price text-title">$${productPrice}</div>
                             <div class="product-origin-price text-title text-secondary2">
-                                <del>$${item.originPrice}.00</del>
+                                <del>$${item.originPrice}</del>
                             </div>
                         </div>
                     </div>
@@ -497,8 +497,6 @@ addCartBtns.forEach((item) => {
 
     addCartItem(productId, quantity);
 
-    console.log(productId, quantity)
-
     
   });
 });
@@ -526,13 +524,15 @@ const handleItemModalCart = () => {
         console.warn('User is not authenticated. Showing items from local storage.');
         let cartStore = localStorage.getItem("cartStore");
         cartStore = cartStore ? JSON.parse(cartStore) : [];
-
         if (cartStore.length === 0) {
             listItemCart.innerHTML = `<p class='mt-1'>No product in cart</p>`;
         } else {
-            cartStore.forEach((item) => {
+            cartStore.forEach((items) => {
+                console.log(items);
+                const item = items;
                 const prdItem = document.createElement("div");
-                prdItem.setAttribute("data-item", item.product_id);
+                prdItem.setAttribute("data-item", item.id);
+                let quantity = item.quantity ?? 1;
                 prdItem.classList.add(
                     "item",
                     "py-5",
@@ -546,7 +546,7 @@ const handleItemModalCart = () => {
                 prdItem.innerHTML = `
                      <div class="infor flex items-center gap-3 w-full">
                         <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                            <img src=${item.images[0].image} alt='product' class='' />
+                            <img src=${item.image} alt='product' class='' />
                         </div>
                         <div class='w-full'>
                             <div class="flex items-center justify-between w-full">
@@ -557,9 +557,9 @@ const handleItemModalCart = () => {
                             </div>
                             <div class="flex items-center justify-between gap-2 mt-3 w-full">
                                 <div class="flex items-center text-secondary2 capitalize">
-                                    <div class="product-price text-title">qty: ${item.quantity}</div>
+                                    <div class="product-price text-title">qty: ${quantity}</div>
                                 </div>
-                                <div class="product-price text-title">$${item.price * item.quantity}</div>
+                                <div class="product-price text-title">₱ ${item.price * quantity}</div>
                             </div>
                         </div>
                     </div>
@@ -1239,7 +1239,7 @@ const handleItemModalCompare = () => {
                     </div>
                     <div class=''>
                         <div class="name text-title">${item.name}</div>
-                        <div class="product-price text-title mt-2">$${productPrice}.00</div>
+                        <div class="product-price text-title mt-2">$${productPrice}</div>
                     </div>
                 </div>
                 <div
@@ -1360,8 +1360,8 @@ const handleItemModalQuickview = () => {
       }
     }
     modalQuickviewMain.querySelector('.product-infor .rate').innerHTML = arrOfStar
-    modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + productPrice + '.00'
-    modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + '.00'
+    modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + productPrice + '.'
+    modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + ''
     modalQuickviewMain.querySelector('.product-infor .product-sale').innerHTML = '-' + Math.floor(100 - (productPrice / item.originPrice) * 100) + '%'
     modalQuickviewMain.querySelector('.product-infor .desc').innerHTML = item.description
 
@@ -1593,7 +1593,7 @@ const createProductItem = (product) => {
   }
 
   let productImages = "";
-  product.thumbImage.forEach((img, index) => {
+  product.images.forEach((img, index) => {
     productImages += `<img key="${index}" class="w-full h-full object-cover duration-700" src="${img}" alt="img">`;
   });
 
@@ -1660,15 +1660,7 @@ const createProductItem = (product) => {
                                 <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                             </div>
                             <div class="quick-shop-block absolute left-5 right-5 bg-white p-5 rounded-[20px]">
-                                <div class="list-size flex items-center justify-center flex-wrap gap-2">
-                                    ${product.sizes &&
-      product.sizes
-        .map(
-          (size, index) =>
-            `<div key="${index}" class="size-item w-10 h-10 rounded-full flex items-center justify-center text-button bg-white border border-line">${size.trim()}</div>`
-        )
-        .join("")
-      }
+                                
                                 </div >
     <div class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">Add
         To cart</div>
@@ -1701,7 +1693,7 @@ const createProductItem = (product) => {
                 </div>
                 <div class="product-name text-title duration-300">${product.name
     }</div>
-                ${product.variation.length > 0 &&
+                ${
       product.action === "add to cart"
       ? `
                         <div class="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
@@ -1720,35 +1712,15 @@ const createProductItem = (product) => {
         .join("")}
                         </div>`
       : `
-                    <div class="list-color list-color-image max-md:hidden flex items-center gap-3 flex-wrap duration-500">
-                        ${product.variation
-        .map(
-          (item, index) =>
-            `
-                            <div
-                                class="color-item w-12 h-12 rounded-xl duration-300 relative"
-                                key="${index}"
-                            >
-                                <img
-                                    src="${item.colorImage}"
-                                    alt='color'
-                                    class='rounded-xl w-full h-full object-cover'
-                                />
-                                <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${item.color}</div>
-                            </div>
-                        `
-        )
-        .join("")}
-                    </div>
-                `
+                    `
     }
         <div
         class="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-        <div class="product-price text-title">$${productPrice}.00</div>
-        ${Math.floor(100 - (productPrice / product.originPrice) * 100) > 0
+        <div class="product-price text-title">₱${product.discounted_price}</div>
+        ${Math.floor(100 - (product.discounted_price / product.originPrice) * 100) > 0
       ? `
                 <div class="product-origin-price caption1 text-secondary2">
-                    <del>$${product.originPrice}.00</del>
+                    <del>$${product.originPrice}</del>
                 </div>
                 <div
                     class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
@@ -2594,7 +2566,7 @@ const createProductItemMarketplace = (product) => {
                         <div class="flex gap-0.5 mt-1">
                             ${arrOfStar}
                         </div>
-                        <span class="text-title inline-block mt-1">$${productPrice}.00</span>
+                        <span class="text-title inline-block mt-1">$${productPrice}quantity</span>
                     </div>
     `;
 
@@ -3169,7 +3141,7 @@ if (listProductCompare) {
       );
       priceElement.innerHTML = `
                 <div class='price-item h-full flex items-center justify-center'>
-                    $${productPrice}.00
+                    $${productPrice}quantity
                 </div>
             `;
 
@@ -3274,30 +3246,9 @@ if (listProductCompare) {
 // Cart
 let listProductCart = document.querySelector(".cart-block .list-product-main");
 
-const handleInforCart = () => {
-  if (listProductCart) {
-    const URL = `${API_URL}/cart`;
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = user ? user.token : null;
 
-    if (!token) {
-      console.error('User is not authenticated');
-      return;
-    }
-    console.log(token);
-
-    fetch(URL, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
-      }
-  })
-  .then(response => response.json())
-  .then(cartStore => {
+const renderCart = (cartStore) => {
   
-
     // Initial value in cart page
     let totalCart = 0;
 
@@ -3308,13 +3259,15 @@ const handleInforCart = () => {
     cartStore.forEach((product) => {
       // calculate for prd item
       const calculateProductTotal = () => {
-        const productTotal = productPrice * product.pivot.quantity;
+        let quantity = product.pivot?.quantity ?? product.quantity; 
+        const productTotal = productPrice * quantity;
         return productTotal;
       };
 
       let productPrice = product.discounted_price ? product.discounted_price : productPrice;
 
       const productElement = document.createElement("div");
+      let quantity = product.pivot?.quantity ?? product.quantity; 
       productElement.setAttribute("data-item", product.id);
       productElement.classList.add(
         "item",
@@ -3341,18 +3294,18 @@ const handleInforCart = () => {
                     </div>
                 </div>
                 <div class="w-1/12 price flex items-center justify-center">
-                    <div class="text-title text-center">$${productPrice}</div>
+                    <div class="text-title text-center">₱ ${productPrice}</div>
                 </div>
                 <div class="w-1/6 flex items-center justify-center">
                     <div
                         class="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <i class="ph-bold ph-minus cursor-pointer text-base max-md:text-sm"></i>
-                        <div class="text-button quantity">₱ {product.pivot.quantity}</div>
+                        <div class="text-button quantity">${quantity}</div>
                         <i class="ph-bold ph-plus cursor-pointer text-base max-md:text-sm"></i>
                     </div>
                 </div>
                 <div class="w-1/6 flex total-price items-center justify-center">
-                    <div class="text-title text-center">₱ ${productPrice}.00
+                    <div class="text-title text-center">₱ ${(productPrice * quantity).toFixed(2)}
                     </div>
                 </div>
                 <div class="w-1/12 flex items-center justify-center">
@@ -3368,26 +3321,28 @@ const handleInforCart = () => {
       );
 
       quantityBlock.querySelector(".ph-plus").addEventListener("click", () => {
-        product.pivot.quantity++;
-        quantityProduct.textContent = product.pivot.quantity;
-        totalPriceProduct.textContent = `₱ ${product.pivot.quantity * productPrice
-          }.00`;
-        updateTotalCart();
-
-        updateCartQuantity(product.id, product.pivot.quantity);
-
-  
+        console.log(quantity)
+        quantity++;
+        
+        updateCartQuantity(product.id, quantity);
+        let temp = localStorage.getItem("cartStore");
+        temp = temp ? JSON.parse(temp) : [];
+        quantityProduct.textContent = quantity;
+        totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
+        updateTotalCart(temp);
       });
 
       quantityBlock.querySelector(".ph-minus").addEventListener("click", () => {
-        if (product.pivot.quantity > 1) {
-          product.pivot.quantity--;
-          quantityProduct.textContent = product.pivot.quantity;
-          totalPriceProduct.textContent = `$${product.pivot.quantity * productPrice
-            }.00`;
-          updateTotalCart();
+        if (quantity > 1) {
+          quantity--;
+          updateCartQuantity(product.id, quantity);
+          let temp = localStorage.getItem("cartStore");
+          temp = temp ? JSON.parse(temp) : [];
+          quantityProduct.textContent = quantity;
+          totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
+          updateTotalCart(temp);
           
-          updateCartQuantity(product.id, product.pivot.quantity);
+          
         }
       });
 
@@ -3399,17 +3354,20 @@ const handleInforCart = () => {
         totalCart;
     });
 
-    const updateTotalCart = () => {
+    const updateTotalCart = (temp) => {
       totalCart = 0;
-      cartStore.forEach((product) => {
+      temp.forEach((product) => {
+        let quantity = product.pivot?.quantity ?? product.quantity;
         let productPrice = product.discounted_price ? product.discounted_price : productPrice;
-        totalCart += productPrice * product.pivot.quantity;
+        console
+        totalCart += productPrice * quantity;
+        
       });
       // Change value in cart page
       document.querySelector(".total-block .total-product").innerHTML =
-        totalCart;
+        totalCart.toFixed(2);
       document.querySelector(".total-cart-block .total-cart").innerHTML =
-        totalCart;
+        totalCart.toFixed(2);
      
       console.log(totalCart);
     };
@@ -3430,9 +3388,38 @@ const handleInforCart = () => {
         handleInforCart();
       });
     });
+}
+
+const handleInforCart = () => {
+  if (listProductCart) {
+    const URL = `${API_URL}/cart`;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = user ? user.token : null;
+
+    if (!token) {
+      console.warn('User is not authenticated');
+      let cartStore = localStorage.getItem("cartStore");
+      cartStore = cartStore ? JSON.parse(cartStore) : [];
+      renderCart(cartStore);
+      return;
+    }
+    console.log(token);
+
+    fetch(URL, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+  })
+  .then(response => response.json())
+  .then(cartStore => {
+    renderCart(cartStore);
   })
 };
 };
+
 
 handleInforCart();
 
@@ -3484,7 +3471,7 @@ handleInforCart();
 //     totalCart += productPrice * product.pivot.quantity;
 //     document.querySelector(
 //       ".total-cart-block .total-cart"
-//     ).innerHTML = `₱ ${totalCart}.00`;
+//     ).innerHTML = `₱ ${totalCart}quantity`;
 //   });
 // }
 
@@ -3557,7 +3544,8 @@ function addCartItem(productId, quantity) {
         console.log(existingIndex);
         if (existingIndex > -1) {
             console.log('Item already exists in cart');
-            cartStore[existingIndex].quantity = Number(cartStore[existingIndex].quantity) + Number(quantity);
+
+            cartStore[existingIndex].quantity = Number(cartStore[existingIndex].quantity ?? 1) + Number(quantity);
         } else {
            $.ajax({
             url: `${API_URL}/products/details/${productId}`,
@@ -3571,7 +3559,9 @@ function addCartItem(productId, quantity) {
             },
             complete: function () {
                 // This runs whether the request succeeds or fails
+                console.log(cartStore[0]);
                 localStorage.setItem("cartStore", JSON.stringify(cartStore));
+
                 handleItemModalCart();
                 openModalCart();
                 fetchCartCount();
@@ -3617,7 +3607,17 @@ function updateCartQuantity(productId, quantity) {
     const token = user ? user.token : null;
 
     if (!token) {
-        console.error('User is not authenticated');
+        console.log('User is not authenticated');
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || [];
+        const productIndex = cartStore.findIndex((item) => item.id === productId);
+
+        if (productIndex !== -1) {
+            cartStore[productIndex].quantity = quantity;
+        } else {
+            console.warn("Product not found in cartStore.");
+        }
+
+        localStorage.setItem("cartStore", JSON.stringify(cartStore));
         return;
     }
 
