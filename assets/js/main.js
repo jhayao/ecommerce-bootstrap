@@ -406,9 +406,9 @@ const handleItemModalWishlist = () => {
                     <div class=''>
                         <div class="name text-button">${item.name}</div>
                         <div class="flex items-center gap-2 mt-2">
-                            <div class="product-price text-title">$${productPrice}.00</div>
+                            <div class="product-price text-title">$${productPrice}</div>
                             <div class="product-origin-price text-title text-secondary2">
-                                <del>$${item.originPrice}.00</del>
+                                <del>$${item.originPrice}</del>
                             </div>
                         </div>
                     </div>
@@ -497,8 +497,6 @@ addCartBtns.forEach((item) => {
 
     addCartItem(productId, quantity);
 
-    console.log(productId, quantity)
-
     
   });
 });
@@ -530,7 +528,8 @@ const handleItemModalCart = () => {
             listItemCart.innerHTML = `<p class='mt-1'>No product in cart</p>`;
         } else {
             cartStore.forEach((items) => {
-                const item = items[0];
+                console.log(items);
+                const item = items;
                 const prdItem = document.createElement("div");
                 prdItem.setAttribute("data-item", item.id);
                 let quantity = item.quantity ?? 1;
@@ -1240,7 +1239,7 @@ const handleItemModalCompare = () => {
                     </div>
                     <div class=''>
                         <div class="name text-title">${item.name}</div>
-                        <div class="product-price text-title mt-2">$${productPrice}.00</div>
+                        <div class="product-price text-title mt-2">$${productPrice}</div>
                     </div>
                 </div>
                 <div
@@ -1361,8 +1360,8 @@ const handleItemModalQuickview = () => {
       }
     }
     modalQuickviewMain.querySelector('.product-infor .rate').innerHTML = arrOfStar
-    modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + productPrice + '.00'
-    modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + '.00'
+    modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + productPrice + '.'
+    modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + ''
     modalQuickviewMain.querySelector('.product-infor .product-sale').innerHTML = '-' + Math.floor(100 - (productPrice / item.originPrice) * 100) + '%'
     modalQuickviewMain.querySelector('.product-infor .desc').innerHTML = item.description
 
@@ -1725,11 +1724,11 @@ const createProductItem = (product) => {
     }
         <div
         class="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-        <div class="product-price text-title">₱${product.discounted_price}.00</div>
+        <div class="product-price text-title">₱${product.discounted_price}</div>
         ${Math.floor(100 - (product.discounted_price / product.originPrice) * 100) > 0
       ? `
                 <div class="product-origin-price caption1 text-secondary2">
-                    <del>$${product.originPrice}.00</del>
+                    <del>$${product.originPrice}</del>
                 </div>
                 <div
                     class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
@@ -2575,7 +2574,7 @@ const createProductItemMarketplace = (product) => {
                         <div class="flex gap-0.5 mt-1">
                             ${arrOfStar}
                         </div>
-                        <span class="text-title inline-block mt-1">$${productPrice}.00</span>
+                        <span class="text-title inline-block mt-1">$${productPrice}quantity</span>
                     </div>
     `;
 
@@ -3150,7 +3149,7 @@ if (listProductCompare) {
       );
       priceElement.innerHTML = `
                 <div class='price-item h-full flex items-center justify-center'>
-                    $${productPrice}.00
+                    $${productPrice}quantity
                 </div>
             `;
 
@@ -3255,32 +3254,9 @@ if (listProductCompare) {
 // Cart
 let listProductCart = document.querySelector(".cart-block .list-product-main");
 
-const handleInforCart = () => {
-  if (listProductCart) {
-    const URL = `${API_URL}/cart`;
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = user ? user.token : null;
 
-    if (!token) {
-      console.error('User is not authenticated');
-      //go to login page
-    window.location.href = "login.html";
-      return;
-    }
-    console.log(token);
-
-    fetch(URL, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
-      }
-  })
-  .then(response => response.json())
-  .then(cartStore => {
+const renderCart = (cartStore) => {
   
-
     // Initial value in cart page
     let totalCart = 0;
 
@@ -3291,13 +3267,15 @@ const handleInforCart = () => {
     cartStore.forEach((product) => {
       // calculate for prd item
       const calculateProductTotal = () => {
-        const productTotal = productPrice * product.pivot.quantity;
+        let quantity = product.pivot?.quantity ?? product.quantity; 
+        const productTotal = productPrice * quantity;
         return productTotal;
       };
 
       let productPrice = product.discounted_price ? product.discounted_price : productPrice;
 
       const productElement = document.createElement("div");
+      let quantity = product.pivot?.quantity ?? product.quantity; 
       productElement.setAttribute("data-item", product.id);
       productElement.classList.add(
         "item",
@@ -3330,12 +3308,12 @@ const handleInforCart = () => {
                     <div
                         class="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <i class="ph-bold ph-minus cursor-pointer text-base max-md:text-sm"></i>
-                        <div class="text-button quantity">₱ {product.pivot.quantity}</div>
+                        <div class="text-button quantity">${quantity}</div>
                         <i class="ph-bold ph-plus cursor-pointer text-base max-md:text-sm"></i>
                     </div>
                 </div>
                 <div class="w-1/6 flex total-price items-center justify-center">
-                    <div class="text-title text-center">₱ ${productPrice}.00
+                    <div class="text-title text-center">₱ ${(productPrice * quantity).toFixed(2)}
                     </div>
                 </div>
                 <div class="w-1/12 flex items-center justify-center">
@@ -3351,26 +3329,25 @@ const handleInforCart = () => {
       );
 
       quantityBlock.querySelector(".ph-plus").addEventListener("click", () => {
-        product.pivot.quantity++;
-        quantityProduct.textContent = product.pivot.quantity;
-        totalPriceProduct.textContent = `₱ ${product.pivot.quantity * productPrice
-          }.00`;
+        quantity = product.pivot?.quantity ?? product.quantity;
+        quantity++;
+        quantityProduct.textContent = quantity;
+        totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
         updateTotalCart();
 
-        updateCartQuantity(product.id, product.pivot.quantity);
+        updateCartQuantity(product.id, quantity);
 
   
       });
 
       quantityBlock.querySelector(".ph-minus").addEventListener("click", () => {
-        if (product.pivot.quantity > 1) {
-          product.pivot.quantity--;
-          quantityProduct.textContent = product.pivot.quantity;
-          totalPriceProduct.textContent = `$${product.pivot.quantity * productPrice
-            }.00`;
+        if (quantity > 1) {
+          quantity--;
+          quantityProduct.textContent = quantity;
+          totalPriceProduct.textContent = `₱ ${(productPrice * quantity).toFixed(2)}`;
           updateTotalCart();
           
-          updateCartQuantity(product.id, product.pivot.quantity);
+          updateCartQuantity(product.id, quantity);
         }
       });
 
@@ -3385,8 +3362,9 @@ const handleInforCart = () => {
     const updateTotalCart = () => {
       totalCart = 0;
       cartStore.forEach((product) => {
+        let quantity = product.pivot?.quantity ?? product.quantity;
         let productPrice = product.discounted_price ? product.discounted_price : productPrice;
-        totalCart += productPrice * product.pivot.quantity;
+        totalCart += productPrice * quantity;
       });
       // Change value in cart page
       document.querySelector(".total-block .total-product").innerHTML =
@@ -3413,9 +3391,38 @@ const handleInforCart = () => {
         handleInforCart();
       });
     });
+}
+
+const handleInforCart = () => {
+  if (listProductCart) {
+    const URL = `${API_URL}/cart`;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = user ? user.token : null;
+
+    if (!token) {
+      console.warn('User is not authenticated');
+      let cartStore = localStorage.getItem("cartStore");
+      cartStore = cartStore ? JSON.parse(cartStore) : [];
+      renderCart(cartStore);
+      return;
+    }
+    console.log(token);
+
+    fetch(URL, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+  })
+  .then(response => response.json())
+  .then(cartStore => {
+    renderCart(cartStore);
   })
 };
 };
+
 
 handleInforCart();
 
@@ -3467,7 +3474,7 @@ handleInforCart();
 //     totalCart += productPrice * product.pivot.quantity;
 //     document.querySelector(
 //       ".total-cart-block .total-cart"
-//     ).innerHTML = `₱ ${totalCart}.00`;
+//     ).innerHTML = `₱ ${totalCart}quantity`;
 //   });
 // }
 
@@ -3536,12 +3543,12 @@ function addCartItem(productId, quantity) {
         let cartStore = localStorage.getItem("cartStore");
         cartStore = cartStore ? JSON.parse(cartStore) : [];
 
-        const existingIndex = cartStore.findIndex(item => item[0].id == productId );
+        const existingIndex = cartStore.findIndex(item => item.id == productId );
         console.log(existingIndex);
         if (existingIndex > -1) {
             console.log('Item already exists in cart');
 
-            cartStore[existingIndex][0].quantity = Number(cartStore[existingIndex][0].quantity ?? 1) + Number(quantity);
+            cartStore[existingIndex].quantity = Number(cartStore[existingIndex].quantity ?? 1) + Number(quantity);
         } else {
            $.ajax({
             url: `${API_URL}/products/details/${productId}`,
@@ -3555,6 +3562,7 @@ function addCartItem(productId, quantity) {
             },
             complete: function () {
                 // This runs whether the request succeeds or fails
+                console.log(cartStore[0]);
                 localStorage.setItem("cartStore", JSON.stringify(cartStore));
 
                 handleItemModalCart();

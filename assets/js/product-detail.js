@@ -65,30 +65,9 @@ if (productDetail) {
     })
         .then(response => response.json())
         .then(data => {
-            let productMain = data.find(product => product.id == productId);
+            console.log(data);
+            let productMain = data;
             
-            // find location of current product in array
-            currentIndex = data.findIndex(product => product.id === productId);
-
-            // Next, Prev products when click button
-            const prevBtn = document.querySelector('.breadcrumb-product .prev-btn')
-            const nextBtn = document.querySelector('.breadcrumb-product .next-btn')
-
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % data.length;
-                const nextProduct = data[currentIndex];
-                window.location.href = `product-${typePage}.html?id=${nextProduct.id}`
-            })
-
-            if (productId === '1') {
-                prevBtn.remove()
-            } else {
-                prevBtn.addEventListener('click', () => {
-                    currentIndex = (currentIndex - 1) % data.length;
-                    const nextProduct = data[currentIndex];
-                    window.location.href = `product-${typePage}.html?id=${nextProduct.id}`
-                })
-            }
 
             // list-img
             const listImg2 = productDetail.querySelector('.featured-product .list-img .mySwiper2 .swiper-wrapper')
