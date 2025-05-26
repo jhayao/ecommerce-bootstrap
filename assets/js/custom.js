@@ -1,1 +1,1 @@
-export const API_URL = 'https://jhayao.dev/api';
+export const API_URL = 'https://e8ajwpubl8.execute-api.ap-southeast-1.amazonaws.com/api';
