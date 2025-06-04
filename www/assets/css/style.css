@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './icomoon/style.css'
+
+
+.modal-newsletter .modal-cart-main,
+.modal-video-block .modal-cart-main,
+.modal-sizeguide-block .modal-cart-main,
+.modal-quickview-block .modal-cart-main,
+.modal-cart-block .modal-cart-main,
+.modal-wishlist-block .modal-cart-main,
+.modal-search-block .modal-cart-main {
+  width: 980px;
+}

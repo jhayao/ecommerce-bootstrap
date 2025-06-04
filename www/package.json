@@ -1,0 +1,23 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "vite": "^6.1.1"
+  },
+  "name": "anvogue_html",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/style.css -o ./dist/output-tailwind.css --watch",
+    "sass": "sass --watch ./assets/scss/style.scss ./dist/output-scss.css",
+    "build": "npx tailwindcss -i ./assets/css/style.css -o ./dist/output-tailwind.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "jquery-validation": "^1.21.0",
+    "sass": "^1.70.0"
+  }
+}

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCM Token Server Test - EcommerceShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            min-width: 120px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .button.success {
+            background: #28a745;
+        }
+        .button.danger {
+            background: #dc3545;
+        }
+        .token-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 15px 0;
+            min-height: 40px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .log-area {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .endpoint-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Main App</a>
+    
+    <div class="container">
+        <h1>🧪 FCM Token Server Test</h1>
+        <p>Test if FCM tokens are being sent to the server successfully</p>
+        
+        <div class="endpoint-info">
+            <strong>API Endpoint:</strong> https://e8ajwpubl8.execute-api.ap-southeast-1.amazonaws.com/api/fcm/save
+        </div>
+    </div>
+
+    <!-- Server Connection Test -->
+    <div class="container">
+        <h2>🌐 Server Connection Test</h2>
+        <div id="connection-status" class="status-box status-info">
+            Ready to test server connection...
+        </div>
+        <button class="button" onclick="testServerConnection()">Test Server Connection</button>
+        <button class="button" onclick="testCorsPolicy()">Test CORS Policy</button>
+    </div>
+
+    <!-- FCM Token Status -->
+    <div class="container">
+        <h2>🎯 FCM Token Status</h2>
+        <div id="token-status" class="status-box status-info">
+            Checking token status...
+        </div>
+        
+        <div>
+            <strong>Current FCM Token:</strong>
+        </div>
+        <div id="current-token" class="token-display">
+            Loading token...
+        </div>
+        
+        <button class="button" onclick="getFreshToken()">Get Fresh Token</button>
+        <button class="button" onclick="checkTokenStorage()">Check Local Storage</button>
+    </div>
+
+    <!-- Token Sending Test -->
+    <div class="container">
+        <h2>📤 Token Sending Test</h2>
+        <div id="sending-status" class="status-box status-info">
+            Ready to test token sending...
+        </div>
+        
+        <button class="button" onclick="testTokenSending()">Test Send Token to Server</button>
+        <button class="button" onclick="forceSendToken()">Force Send Current Token</button>
+        <button class="button" onclick="testRetryMechanism()">Test Retry Mechanism</button>
+    </div>
+
+    <!-- Server Response Log -->
+    <div class="container">
+        <h2>📋 Server Response Log</h2>
+        <div id="response-log" class="log-area">
+            Waiting for server responses...
+        </div>
+        <button class="button" onclick="clearLog()">Clear Log</button>
+        <button class="button" onclick="downloadLog()">Download Log</button>
+    </div>
+
+    <!-- Local Storage Status -->
+    <div class="container">
+        <h2>💾 Local Storage Status</h2>
+        <div id="storage-info">
+            <div class="test-result">
+                <strong>FCM Token Sent:</strong> <span id="token-sent-status">Checking...</span>
+            </div>
+            <div class="test-result">
+                <strong>Last Sent Time:</strong> <span id="last-sent-time">Checking...</span>
+            </div>
+            <div class="test-result">
+                <strong>Pending Token:</strong> <span id="pending-token">Checking...</span>
+            </div>
+            <div class="test-result">
+                <strong>User ID:</strong> <span id="user-id">Checking...</span>
+            </div>
+        </div>
+        <button class="button" onclick="refreshStorageInfo()">Refresh Storage Info</button>
+        <button class="button danger" onclick="clearStorageData()">Clear Storage Data</button>
+    </div>
+
+    <!-- Include Cordova and notification scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/push-notifications.js"></script>
+    <script type="module" src="assets/js/custom.js"></script>
+    
+    <script>
+        let currentToken = null;
+        let logEntries = [];
+        
+        // API Configuration
+        const API_URL = 'https://e8ajwpubl8.execute-api.ap-southeast-1.amazonaws.com/api';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            logMessage('📱 FCM Token Server Test initialized');
+            checkTokenStorage();
+            refreshStorageInfo();
+        });
+        
+        document.addEventListener('deviceready', function() {
+            logMessage('📱 Device ready');
+            getFreshToken();
+        });
+        
+        // Server Connection Test
+        async function testServerConnection() {
+            const statusEl = document.getElementById('connection-status');
+            statusEl.textContent = 'Testing server connection...';
+            statusEl.className = 'status-box status-info';
+            
+            try {
+                logMessage('🌐 Testing server connection...');
+                
+                const response = await fetch(`${API_URL}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.textContent = '✅ Server connection successful';
+                    statusEl.className = 'status-box status-success';
+                    logMessage(`✅ Server response: ${JSON.stringify(data)}`);
+                } else {
+                    statusEl.textContent = `❌ Server returned ${response.status}: ${response.statusText}`;
+                    statusEl.className = 'status-box status-error';
+                    logMessage(`❌ Server error: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                statusEl.textContent = `❌ Connection failed: ${error.message}`;
+                statusEl.className = 'status-box status-error';
+                logMessage(`❌ Connection error: ${error.message}`);
+            }
+        }
+        
+        // Test CORS Policy
+        async function testCorsPolicy() {
+            const statusEl = document.getElementById('connection-status');
+            statusEl.textContent = 'Testing CORS policy...';
+            statusEl.className = 'status-box status-info';
+            
+            try {
+                logMessage('🔒 Testing CORS policy...');
+                
+                const response = await fetch(`${API_URL}/fcm/save`, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': 'file://',
+                        'Access-Control-Request-Method': 'POST',
+                        'Access-Control-Request-Headers': 'Content-Type'
+                    }
+                });
+                
+                logMessage(`🔒 CORS preflight response: ${response.status}`);
+                logMessage(`🔒 CORS headers: ${JSON.stringify([...response.headers.entries()])}`);
+                
+                statusEl.textContent = '✅ CORS policy test completed (check log for details)';
+                statusEl.className = 'status-box status-success';
+            } catch (error) {
+                statusEl.textContent = `❌ CORS test failed: ${error.message}`;
+                statusEl.className = 'status-box status-error';
+                logMessage(`❌ CORS error: ${error.message}`);
+            }
+        }
+        
+        // Get Fresh Token
+        function getFreshToken() {
+            const statusEl = document.getElementById('token-status');
+            statusEl.textContent = 'Getting fresh FCM token...';
+            statusEl.className = 'status-box status-info';
+            
+            try {
+                // Check if token is in localStorage first
+                const storedToken = localStorage.getItem('fcm_token');
+                if (storedToken) {
+                    currentToken = storedToken;
+                    document.getElementById('current-token').textContent = storedToken;
+                    statusEl.textContent = '✅ Token loaded from localStorage';
+                    statusEl.className = 'status-box status-success';
+                    logMessage(`🎯 Token from storage: ${storedToken.substring(0, 20)}...`);
+                }
+                
+                // Try to get fresh token from plugin
+                if (window.cordova && window.cordova.plugins && window.cordova.plugins.firebase) {
+                    window.cordova.plugins.firebase.messaging.getToken().then((token) => {
+                        currentToken = token;
+                        document.getElementById('current-token').textContent = token;
+                        statusEl.textContent = '✅ Fresh FCM token retrieved';
+                        statusEl.className = 'status-box status-success';
+                        logMessage(`🎯 Fresh token: ${token.substring(0, 20)}...`);
+                    }).catch((error) => {
+                        logMessage(`❌ Error getting fresh token: ${error}`);
+                        if (!currentToken) {
+                            statusEl.textContent = `❌ Failed to get token: ${error}`;
+                            statusEl.className = 'status-box status-error';
+                        }
+                    });
+                } else {
+                    logMessage('⚠️ Firebase plugin not available');
+                    if (!currentToken) {
+                        statusEl.textContent = '⚠️ Firebase plugin not available';
+                        statusEl.className = 'status-box status-warning';
+                    }
+                }
+            } catch (error) {
+                statusEl.textContent = `❌ Error: ${error.message}`;
+                statusEl.className = 'status-box status-error';
+                logMessage(`❌ Token retrieval error: ${error.message}`);
+            }
+        }
+        
+        // Check Token Storage
+        function checkTokenStorage() {
+            const tokenEl = document.getElementById('current-token');
+            const statusEl = document.getElementById('token-status');
+            
+            const storedToken = localStorage.getItem('fcm_token');
+            if (storedToken) {
+                currentToken = storedToken;
+                tokenEl.textContent = storedToken;
+                statusEl.textContent = '✅ Token found in storage';
+                statusEl.className = 'status-box status-success';
+                logMessage(`💾 Token in storage: ${storedToken.substring(0, 20)}...`);
+            } else {
+                tokenEl.textContent = 'No token in storage';
+                statusEl.textContent = '⚠️ No token found in storage';
+                statusEl.className = 'status-box status-warning';
+                logMessage('💾 No token found in localStorage');
+            }
+        }
+        
+        // Test Token Sending
+        async function testTokenSending() {
+            if (!currentToken) {
+                logMessage('❌ No token available for testing');
+                updateSendingStatus('❌ No token available', 'error');
+                return;
+            }
+            
+            updateSendingStatus('📤 Testing token sending...', 'info');
+            
+            try {
+                const deviceInfo = {
+                    token: currentToken,
+                    userId: localStorage.getItem('user_id') || 'test-user',
+                    platform: 'android',
+                    timestamp: new Date().toISOString(),
+                    appVersion: '1.0.0',
+                    packageName: 'com.ecommerece.shop'
+                };
+                
+                logMessage(`📤 Sending token to server: ${JSON.stringify(deviceInfo, null, 2)}`);
+                
+                const response = await fetch(`${API_URL}/fcm/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(deviceInfo)
+                });
+                
+                logMessage(`📤 Server response status: ${response.status} ${response.statusText}`);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    updateSendingStatus('✅ Token sent successfully!', 'success');
+                    logMessage(`✅ Server response: ${JSON.stringify(result, null, 2)}`);
+                    
+                    // Update localStorage to reflect successful send
+                    localStorage.setItem('fcm_token_sent', 'true');
+                    localStorage.setItem('fcm_token_sent_time', new Date().toISOString());
+                    localStorage.removeItem('fcm_token_pending');
+                    
+                    refreshStorageInfo();
+                } else {
+                    const errorText = await response.text();
+                    updateSendingStatus(`❌ Server error: ${response.status}`, 'error');
+                    logMessage(`❌ Server error response: ${errorText}`);
+                }
+            } catch (error) {
+                updateSendingStatus(`❌ Send failed: ${error.message}`, 'error');
+                logMessage(`❌ Send error: ${error.message}`);
+            }
+        }
+        
+        // Force Send Token
+        async function forceSendToken() {
+            if (!currentToken) {
+                alert('No token available. Please get a token first.');
+                return;
+            }
+            
+            // Clear any previous send status
+            localStorage.removeItem('fcm_token_sent');
+            localStorage.removeItem('fcm_token_sent_time');
+            
+            await testTokenSending();
+        }
+        
+        // Test Retry Mechanism
+        async function testRetryMechanism() {
+            logMessage('🔄 Testing retry mechanism...');
+            
+            // Simulate a pending token
+            localStorage.setItem('fcm_token_pending', currentToken || 'test-token');
+            localStorage.setItem('fcm_token_sent', 'false');
+            
+            // Import and test the retry function
+            try {
+                const module = await import('./assets/js/custom.js');
+                await module.retryPendingFCMToken();
+                logMessage('✅ Retry mechanism test completed');
+                refreshStorageInfo();
+            } catch (error) {
+                logMessage(`❌ Retry mechanism error: ${error.message}`);
+            }
+        }
+        
+        // Update sending status
+        function updateSendingStatus(message, type) {
+            const statusEl = document.getElementById('sending-status');
+            statusEl.textContent = message;
+            statusEl.className = `status-box status-${type}`;
+        }
+        
+        // Refresh Storage Info
+        function refreshStorageInfo() {
+            document.getElementById('token-sent-status').textContent = 
+                localStorage.getItem('fcm_token_sent') || 'Not set';
+            
+            const sentTime = localStorage.getItem('fcm_token_sent_time');
+            document.getElementById('last-sent-time').textContent = 
+                sentTime ? new Date(sentTime).toLocaleString() : 'Never';
+            
+            const pendingToken = localStorage.getItem('fcm_token_pending');
+            document.getElementById('pending-token').textContent = 
+                pendingToken ? `${pendingToken.substring(0, 20)}...` : 'None';
+            
+            document.getElementById('user-id').textContent = 
+                localStorage.getItem('user_id') || 'Not set';
+        }
+        
+        // Clear Storage Data
+        function clearStorageData() {
+            if (confirm('Are you sure you want to clear all FCM storage data?')) {
+                localStorage.removeItem('fcm_token');
+                localStorage.removeItem('fcm_token_sent');
+                localStorage.removeItem('fcm_token_sent_time');
+                localStorage.removeItem('fcm_token_pending');
+                
+                logMessage('🗑️ Storage data cleared');
+                refreshStorageInfo();
+                checkTokenStorage();
+            }
+        }
+        
+        // Log Management
+        function logMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            logEntries.push(logEntry);
+            
+            const logArea = document.getElementById('response-log');
+            logArea.textContent = logEntries.join('\n');
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+        
+        function clearLog() {
+            logEntries = [];
+            document.getElementById('response-log').textContent = 'Log cleared...';
+        }
+        
+        function downloadLog() {
+            const logContent = logEntries.join('\n');
+            const blob = new Blob([logContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fcm-test-log-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', function() {
+            logMessage('🚀 FCM Token Server Test page loaded');
+        });
+    </script>
+</body>
+</html>

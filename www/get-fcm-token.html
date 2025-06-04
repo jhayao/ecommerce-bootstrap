@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get FCM Token - EcommerceShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .token-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 15px 0;
+            min-height: 60px;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button.success {
+            background: #28a745;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Main App</a>
+    
+    <div class="container">
+        <h1>🎯 Get FCM Token</h1>
+        <p>Your unique Firebase Cloud Messaging token for push notifications</p>
+    </div>
+    
+    <div class="container">
+        <h2>📱 Your FCM Token</h2>
+        <div id="status" class="status info">
+            Initializing Firebase...
+        </div>
+        
+        <div class="highlight">
+            <strong>🔑 Token:</strong>
+        </div>
+        <div id="token-display" class="token-box">
+            Waiting for FCM token...
+        </div>
+        
+        <button class="button" onclick="copyToken()">📋 Copy Token</button>
+        <button class="button" onclick="refreshToken()">🔄 Refresh Token</button>
+        <button class="button" onclick="showTokenInfo()">ℹ️ Token Info</button>
+    </div>
+    
+    <div class="container">
+        <h2>📋 How to Use This Token</h2>
+        <ol>
+            <li><strong>Copy the token above</strong></li>
+            <li><strong>Use in Firebase Console:</strong>
+                <ul>
+                    <li>Go to <a href="https://console.firebase.google.com/project/ecommerce-2d98b/messaging" target="_blank">Firebase Console</a></li>
+                    <li>Click "Send test message"</li>
+                    <li>Paste your token</li>
+                </ul>
+            </li>
+            <li><strong>Use in cURL command:</strong>
+                <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px; font-size: 12px; overflow-x: auto;">curl -X POST https://fcm.googleapis.com/fcm/send \
+  -H "Authorization: key=YOUR_SERVER_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "YOUR_FCM_TOKEN",
+    "notification": {
+      "title": "Test Notification",
+      "body": "Hello from FCM!"
+    }
+  }'</pre>
+            </li>
+        </ol>
+    </div>
+    
+    <div class="container">
+        <h2>🔍 Token Details</h2>
+        <div id="token-info">
+            <p style="color: #666;">Token information will appear here...</p>
+        </div>
+    </div>
+
+    <!-- Include Cordova and notification scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/push-notifications.js"></script>
+    
+    <script>
+        let currentToken = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Loading...', 'info');
+            
+            // Check if token is already stored
+            const storedToken = localStorage.getItem('fcm_token');
+            if (storedToken) {
+                displayToken(storedToken);
+                updateStatus('Token loaded from storage', 'success');
+            }
+        });
+        
+        document.addEventListener('deviceready', function() {
+            updateStatus('Device ready, getting FCM token...', 'info');
+        });
+        
+        document.addEventListener('tokenReceived', function(event) {
+            const token = event.detail.token;
+            displayToken(token);
+            updateStatus('✅ FCM Token received successfully!', 'success');
+        });
+        
+        document.addEventListener('tokenRefreshed', function(event) {
+            const token = event.detail.token;
+            displayToken(token);
+            updateStatus('🔄 FCM Token refreshed!', 'success');
+        });
+        
+        function displayToken(token) {
+            currentToken = token;
+            document.getElementById('token-display').textContent = token;
+            showTokenInfo();
+        }
+        
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function copyToken() {
+            if (!currentToken) {
+                updateStatus('❌ No token available to copy', 'error');
+                return;
+            }
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(currentToken).then(() => {
+                    updateStatus('✅ Token copied to clipboard!', 'success');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = currentToken;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                updateStatus('✅ Token copied to clipboard!', 'success');
+            }
+        }
+        
+        function refreshToken() {
+            updateStatus('🔄 Refreshing token...', 'info');
+            
+            // Try to get a fresh token
+            if (window.PushNotificationManager) {
+                window.PushNotificationManager.getToken();
+            }
+            
+            // Also check localStorage again
+            setTimeout(() => {
+                const storedToken = localStorage.getItem('fcm_token');
+                if (storedToken && storedToken !== currentToken) {
+                    displayToken(storedToken);
+                    updateStatus('✅ Token refreshed from storage', 'success');
+                }
+            }, 1000);
+        }
+        
+        function showTokenInfo() {
+            if (!currentToken) {
+                document.getElementById('token-info').innerHTML = '<p style="color: #666;">No token available</p>';
+                return;
+            }
+            
+            const tokenLength = currentToken.length;
+            const tokenStart = currentToken.substring(0, 20);
+            const tokenEnd = currentToken.substring(tokenLength - 20);
+            const timestamp = new Date().toLocaleString();
+            
+            document.getElementById('token-info').innerHTML = `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 4px;">
+                    <p><strong>Token Length:</strong> ${tokenLength} characters</p>
+                    <p><strong>Starts with:</strong> ${tokenStart}...</p>
+                    <p><strong>Ends with:</strong> ...${tokenEnd}</p>
+                    <p><strong>Retrieved at:</strong> ${timestamp}</p>
+                    <p><strong>App Package:</strong> com.ecommerece.shop</p>
+                    <p><strong>Firebase Project:</strong> ecommerce-2d98b</p>
+                </div>
+            `;
+        }
+        
+        // Error handling
+        window.addEventListener('error', function(event) {
+            updateStatus('❌ Error occurred: ' + event.error.message, 'error');
+        });
+        
+        // Manual token retrieval function
+        function getTokenManually() {
+            if (window.cordova && window.cordova.plugins && window.cordova.plugins.firebase) {
+                window.cordova.plugins.firebase.messaging.getToken().then((token) => {
+                    displayToken(token);
+                    updateStatus('✅ Token retrieved manually!', 'success');
+                }).catch((error) => {
+                    updateStatus('❌ Error getting token: ' + error, 'error');
+                });
+            } else {
+                updateStatus('❌ Firebase plugin not available', 'error');
+            }
+        }
+        
+        // Add manual retrieval button if automatic fails
+        setTimeout(() => {
+            if (!currentToken) {
+                const container = document.querySelector('.container');
+                const manualButton = document.createElement('button');
+                manualButton.className = 'button';
+                manualButton.textContent = '🔧 Try Manual Retrieval';
+                manualButton.onclick = getTokenManually;
+                container.appendChild(manualButton);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
