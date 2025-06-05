@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notifications Demo - EcommerceShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button.secondary {
+            background: #6c757d;
+        }
+        .token-display {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .log {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: scroll;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Main App</a>
+    
+    <h1>🔔 Push Notifications Demo</h1>
+    
+    <div class="container">
+        <h2>Firebase Configuration Status</h2>
+        <div id="firebase-status" class="status info">
+            Checking Firebase configuration...
+        </div>
+        <div style="margin-top: 10px;">
+            <strong>App Package:</strong> com.ecommerece.shop<br>
+            <strong>Project ID:</strong> ecommerce-2d98b
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Notification Status</h2>
+        <div id="status" class="status info">
+            Initializing push notifications...
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>FCM Token</h2>
+        <p>This token is used to send push notifications to this device:</p>
+        <div id="token" class="token-display">
+            Token will appear here...
+        </div>
+        <button class="button" onclick="copyToken()">Copy Token</button>
+    </div>
+    
+    <div class="container">
+        <h2>Test Actions</h2>
+        <button class="button" onclick="subscribeToTopic('test_topic')">Subscribe to Test Topic</button>
+        <button class="button secondary" onclick="unsubscribeFromTopic('test_topic')">Unsubscribe from Test Topic</button>
+        <button class="button" onclick="clearBadge()">Clear Badge</button>
+        <button class="button secondary" onclick="showTestNotification()">Show Test Notification</button>
+    </div>
+    
+    <div class="container">
+        <h2>Send Test Notification</h2>
+        <p>You can use this information to send a test notification from the Firebase Console:</p>
+        <div style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">
+            <strong>App ID:</strong> com.ecommerece.shop<br>
+            <strong>Project ID:</strong> ecommerce-2d98b<br>
+            <strong>Package Name:</strong> com.ecommerece.shop
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Activity Log</h2>
+        <div id="log" class="log"></div>
+        <button class="button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <!-- Include Cordova and Firebase scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/push-notifications.js"></script>
+    
+    <script>
+        let logElement;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            logElement = document.getElementById('log');
+            addLog('Page loaded, waiting for device ready...');
+        });
+        
+        document.addEventListener('deviceready', function() {
+            addLog('Device ready, initializing push notifications...');
+            updateStatus('Device ready, push notifications initializing...', 'info');
+        });
+        
+        // Listen for token received
+        document.addEventListener('tokenReceived', function(event) {
+            const token = event.detail.token;
+            document.getElementById('token').textContent = token;
+            updateStatus('Push notifications initialized successfully!', 'success');
+            addLog('FCM Token received: ' + token.substring(0, 50) + '...');
+        });
+        
+        // Listen for token refresh
+        document.addEventListener('tokenRefreshed', function(event) {
+            const token = event.detail.token;
+            document.getElementById('token').textContent = token;
+            addLog('FCM Token refreshed: ' + token.substring(0, 50) + '...');
+        });
+        
+        // Listen for messages
+        document.addEventListener('messageReceived', function(event) {
+            const { payload, type } = event.detail;
+            addLog(`Message received (${type}): ${JSON.stringify(payload.notification || payload.data)}`);
+        });
+        
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function addLog(message) {
+            if (!logElement) return;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        function copyToken() {
+            const tokenEl = document.getElementById('token');
+            const token = tokenEl.textContent;
+            
+            if (token && token !== 'Token will appear here...') {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(token).then(() => {
+                        updateStatus('Token copied to clipboard!', 'success');
+                        addLog('Token copied to clipboard');
+                    });
+                } else {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = token;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    updateStatus('Token copied to clipboard!', 'success');
+                    addLog('Token copied to clipboard');
+                }
+            } else {
+                updateStatus('No token available to copy', 'error');
+            }
+        }
+        
+        function subscribeToTopic(topic) {
+            if (window.PushNotificationManager) {
+                window.PushNotificationManager.subscribeToTopic(topic);
+                addLog(`Subscribing to topic: ${topic}`);
+            }
+        }
+        
+        function unsubscribeFromTopic(topic) {
+            if (window.PushNotificationManager) {
+                window.PushNotificationManager.unsubscribeFromTopic(topic);
+                addLog(`Unsubscribing from topic: ${topic}`);
+            }
+        }
+        
+        function clearBadge() {
+            if (window.PushNotificationManager) {
+                window.PushNotificationManager.clearBadge();
+                addLog('Badge cleared');
+            }
+        }
+        
+        function showTestNotification() {
+            const testNotification = {
+                title: 'Test Notification',
+                body: 'This is a test notification from your ecommerce app!',
+                data: {
+                    type: 'test',
+                    timestamp: new Date().toISOString()
+                }
+            };
+            
+            if (window.PushNotificationManager) {
+                window.PushNotificationManager.showInAppNotification(testNotification);
+                addLog('Test notification shown');
+            }
+        }
+        
+        function clearLog() {
+            if (logElement) {
+                logElement.innerHTML = '';
+            }
+        }
+        
+        // Error handling
+        window.addEventListener('error', function(event) {
+            addLog(`Error: ${event.error.message}`);
+            updateStatus('An error occurred, check the log for details', 'error');
+        });
+    </script>
+</body>
+</html>

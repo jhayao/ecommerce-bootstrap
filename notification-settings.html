@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Settings - EcommerceShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .settings-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-info {
+            flex: 1;
+        }
+        .setting-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .setting-description {
+            color: #666;
+            font-size: 14px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-switch.active {
+            background-color: #4CAF50;
+        }
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .save-button {
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .save-button:hover {
+            background: #0056b3;
+        }
+        .token-section {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .token-text {
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Main App</a>
+    
+    <div class="header">
+        <h1>🔔 Notification Settings</h1>
+        <p>Manage your push notification preferences</p>
+    </div>
+    
+    <div class="settings-section">
+        <h2>Order Notifications</h2>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Order Updates</div>
+                <div class="setting-description">Get notified when your order status changes</div>
+            </div>
+            <div class="toggle-switch active" data-setting="orderUpdates">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Delivery Notifications</div>
+                <div class="setting-description">Receive alerts when your order is out for delivery</div>
+            </div>
+            <div class="toggle-switch active" data-setting="deliveryNotifications">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-section">
+        <h2>Shopping Notifications</h2>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Promotions & Deals</div>
+                <div class="setting-description">Be the first to know about special offers and discounts</div>
+            </div>
+            <div class="toggle-switch active" data-setting="promotions">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Price Drop Alerts</div>
+                <div class="setting-description">Get notified when items in your wishlist go on sale</div>
+            </div>
+            <div class="toggle-switch active" data-setting="priceDrops">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Restock Alerts</div>
+                <div class="setting-description">Know when out-of-stock items become available</div>
+            </div>
+            <div class="toggle-switch active" data-setting="restockAlerts">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">Cart Reminders</div>
+                <div class="setting-description">Gentle reminders about items left in your cart</div>
+            </div>
+            <div class="toggle-switch" data-setting="cartReminders">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-section">
+        <h2>General Notifications</h2>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">New Arrivals</div>
+                <div class="setting-description">Discover new products in your favorite categories</div>
+            </div>
+            <div class="toggle-switch" data-setting="newArrivals">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-title">App Updates</div>
+                <div class="setting-description">Important app news and feature updates</div>
+            </div>
+            <div class="toggle-switch active" data-setting="appUpdates">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-section">
+        <h2>Device Information</h2>
+        <div class="token-section">
+            <strong>Firebase Token:</strong>
+            <div id="device-token" class="token-text">Token will appear here when Firebase is initialized...</div>
+        </div>
+        <div style="margin-top: 10px; color: #666; font-size: 14px;">
+            This token is used to send notifications to your device. It's automatically shared with our servers when you enable notifications.
+        </div>
+    </div>
+    
+    <button class="save-button" onclick="saveSettings()">Save Preferences</button>
+
+    <!-- Include Cordova and notification scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/push-notifications.js"></script>
+    <script type="text/javascript" src="js/ecommerce-notifications.js"></script>
+    
+    <script>
+        // Settings management
+        let currentSettings = {
+            orderUpdates: true,
+            deliveryNotifications: true,
+            promotions: true,
+            priceDrops: true,
+            restockAlerts: true,
+            cartReminders: false,
+            newArrivals: false,
+            appUpdates: true
+        };
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            setupToggleListeners();
+        });
+        
+        document.addEventListener('deviceready', function() {
+            console.log('Device ready in notification settings');
+        });
+        
+        document.addEventListener('tokenReceived', function(event) {
+            const token = event.detail.token;
+            document.getElementById('device-token').textContent = token;
+            
+            // Auto-send FCM token to server
+            import('./assets/js/custom.js').then(({ saveFCMToken }) => {
+                saveFCMToken(token)
+                    .then(result => {
+                        console.log('FCM token sent to server from notification settings:', result);
+                    })
+                    .catch(error => {
+                        console.error('Failed to send FCM token from notification settings:', error);
+                    });
+            }).catch(error => {
+                console.error('Error importing custom.js in notification settings:', error);
+            });
+        });
+        
+        function loadSettings() {
+            // Load settings from localStorage
+            const savedSettings = localStorage.getItem('notification_preferences');
+            if (savedSettings) {
+                currentSettings = { ...currentSettings, ...JSON.parse(savedSettings) };
+            }
+            
+            // Update UI toggles
+            Object.keys(currentSettings).forEach(setting => {
+                const toggle = document.querySelector(`[data-setting="${setting}"]`);
+                if (toggle) {
+                    if (currentSettings[setting]) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                }
+            });
+        }
+        
+        function setupToggleListeners() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const setting = this.getAttribute('data-setting');
+                    const isActive = this.classList.contains('active');
+                    
+                    if (isActive) {
+                        this.classList.remove('active');
+                        currentSettings[setting] = false;
+                    } else {
+                        this.classList.add('active');
+                        currentSettings[setting] = true;
+                    }
+                });
+            });
+        }
+        
+        function saveSettings() {
+            // Save to localStorage
+            localStorage.setItem('notification_preferences', JSON.stringify(currentSettings));
+            
+            // Update subscriptions through the notification service
+            if (window.EcommerceNotificationService) {
+                window.EcommerceNotificationService.updateNotificationPreferences(currentSettings);
+            }
+            
+            // Show confirmation
+            const button = document.querySelector('.save-button');
+            const originalText = button.textContent;
+            button.textContent = 'Settings Saved!';
+            button.style.backgroundColor = '#28a745';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '#007bff';
+            }, 2000);
+            
+            console.log('Notification preferences saved:', currentSettings);
+        }
+        
+        // Initialize with stored token if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedToken = localStorage.getItem('fcm_token');
+            if (storedToken) {
+                document.getElementById('device-token').textContent = storedToken;
+            }
+        });
+    </script>
+</body>
+</html>

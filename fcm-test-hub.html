@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCM Testing Hub - EcommerceShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-button.primary {
+            background: #28a745;
+        }
+        .test-button.secondary {
+            background: #6c757d;
+        }
+        .test-button.warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-success {
+            background: #28a745;
+        }
+        .status-warning {
+            background: #ffc107;
+        }
+        .status-error {
+            background: #dc3545;
+        }
+        .status-info {
+            background: #17a2b8;
+        }
+        .description {
+            color: #6c757d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .quick-status {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .quick-status h3 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Main App</a>
+    
+    <div class="container">
+        <h1>🧪 FCM Testing Hub</h1>
+        <p>Comprehensive Firebase Cloud Messaging testing tools for your ecommerce app</p>
+    </div>
+
+    <div class="container">
+        <div class="quick-status">
+            <h3>📊 Quick Status</h3>
+            <div id="token-status">
+                <span class="status-indicator status-info"></span>
+                <span id="token-status-text">Checking FCM token status...</span>
+            </div>
+            <div id="server-status" style="margin-top: 10px;">
+                <span class="status-indicator status-info"></span>
+                <span id="server-status-text">Checking server connection...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>🎯 FCM Token Tests</h2>
+        
+        <a href="fcm-token-test.html" class="test-button primary">
+            🧪 Comprehensive FCM Server Test
+            <div class="description">Complete testing suite for FCM token sending, server connectivity, and error handling</div>
+        </a>
+        
+        <a href="get-fcm-token.html" class="test-button">
+            🔑 Get FCM Token
+            <div class="description">Retrieve and display your current FCM token for manual testing</div>
+        </a>
+        
+        <a href="push-test.html" class="test-button">
+            📱 Push Notification Test
+            <div class="description">Test receiving push notifications on this device</div>
+        </a>
+        
+        <a href="notification-settings.html" class="test-button secondary">
+            ⚙️ Notification Settings
+            <div class="description">Configure notification preferences and permissions</div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h2>📋 Testing Checklist</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+            <h4>Before Testing:</h4>
+            <ul>
+                <li>✅ App is built and installed</li>
+                <li id="check-token">⏳ FCM token is generated</li>
+                <li id="check-server">⏳ Server connectivity verified</li>
+                <li id="check-permissions">⏳ Notification permissions granted</li>
+            </ul>
+            
+            <h4>Test Sequence:</h4>
+            <ol>
+                <li><strong>Get FCM Token:</strong> Verify token generation</li>
+                <li><strong>Server Test:</strong> Confirm token sending works</li>
+                <li><strong>Push Test:</strong> Send test notification</li>
+                <li><strong>Settings:</strong> Verify user preferences</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>🔧 Quick Actions</h2>
+        
+        <button onclick="runQuickTest()" class="test-button warning">
+            ⚡ Run Quick Test
+            <div class="description">Automated test of core FCM functionality</div>
+        </button>
+        
+        <button onclick="clearAllData()" class="test-button secondary">
+            🗑️ Clear All FCM Data
+            <div class="description">Reset all FCM tokens and settings for fresh testing</div>
+        </button>
+        
+        <button onclick="exportTestReport()" class="test-button secondary">
+            📄 Export Test Report
+            <div class="description">Generate a report of all FCM test results</div>
+        </button>
+    </div>
+
+    <div class="container">
+        <h2>📚 API Information</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px;">
+            <strong>FCM Save Endpoint:</strong><br>
+            https://e8ajwpubl8.execute-api.ap-southeast-1.amazonaws.com/api/fcm/save<br><br>
+            
+            <strong>Package Name:</strong> com.ecommerece.shop<br>
+            <strong>App Version:</strong> 1.0.0<br>
+            <strong>Platform:</strong> android
+        </div>
+    </div>
+
+    <!-- Include Cordova and necessary scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/push-notifications.js"></script>
+    
+    <script>
+        let testResults = {};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            checkQuickStatus();
+        });
+        
+        document.addEventListener('deviceready', function() {
+            console.log('Device ready - updating FCM test hub status');
+            setTimeout(checkQuickStatus, 1000);
+        });
+        
+        function checkQuickStatus() {
+            // Check FCM token status
+            const token = localStorage.getItem('fcm_token');
+            const tokenStatusEl = document.getElementById('token-status-text');
+            const tokenIndicator = document.querySelector('#token-status .status-indicator');
+            
+            if (token) {
+                tokenStatusEl.textContent = 'FCM token available';
+                tokenIndicator.className = 'status-indicator status-success';
+                document.getElementById('check-token').innerHTML = '✅ FCM token is generated';
+            } else {
+                tokenStatusEl.textContent = 'No FCM token found';
+                tokenIndicator.className = 'status-indicator status-warning';
+                document.getElementById('check-token').innerHTML = '⚠️ FCM token not found';
+            }
+            
+            // Check server status (simplified)
+            const tokenSent = localStorage.getItem('fcm_token_sent');
+            const serverStatusEl = document.getElementById('server-status-text');
+            const serverIndicator = document.querySelector('#server-status .status-indicator');
+            
+            if (tokenSent === 'true') {
+                serverStatusEl.textContent = 'Server connection verified';
+                serverIndicator.className = 'status-indicator status-success';
+                document.getElementById('check-server').innerHTML = '✅ Server connectivity verified';
+            } else {
+                serverStatusEl.textContent = 'Server not tested';
+                serverIndicator.className = 'status-indicator status-warning';
+                document.getElementById('check-server').innerHTML = '⏳ Server connectivity not verified';
+            }
+            
+            // Check notification permissions
+            if (window.Notification) {
+                if (Notification.permission === 'granted') {
+                    document.getElementById('check-permissions').innerHTML = '✅ Notification permissions granted';
+                } else if (Notification.permission === 'denied') {
+                    document.getElementById('check-permissions').innerHTML = '❌ Notification permissions denied';
+                } else {
+                    document.getElementById('check-permissions').innerHTML = '⏳ Notification permissions not requested';
+                }
+            }
+        }
+        
+        async function runQuickTest() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ Running Quick Test...';
+            button.disabled = true;
+            
+            try {
+                // Test 1: Check for FCM token
+                console.log('Quick Test 1: Checking FCM token...');
+                const token = localStorage.getItem('fcm_token');
+                testResults.tokenAvailable = !!token;
+                
+                if (!token) {
+                    alert('❌ No FCM token found. Please get a token first.');
+                    return;
+                }
+                
+                // Test 2: Test server connectivity
+                console.log('Quick Test 2: Testing server...');
+                const response = await fetch('https://e8ajwpubl8.execute-api.ap-southeast-1.amazonaws.com/api/fcm/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token: token,
+                        userId: 'quick-test-user',
+                        platform: 'android',
+                        timestamp: new Date().toISOString(),
+                        appVersion: '1.0.0',
+                        packageName: 'com.ecommerece.shop'
+                    })
+                });
+                
+                testResults.serverConnectivity = response.ok;
+                
+                if (response.ok) {
+                    alert('✅ Quick test passed! FCM token sent to server successfully.');
+                    localStorage.setItem('fcm_token_sent', 'true');
+                    localStorage.setItem('fcm_token_sent_time', new Date().toISOString());
+                } else {
+                    alert(`❌ Quick test failed! Server returned: ${response.status} ${response.statusText}`);
+                }
+                
+                checkQuickStatus();
+                
+            } catch (error) {
+                console.error('Quick test error:', error);
+                alert(`❌ Quick test failed with error: ${error.message}`);
+                testResults.serverConnectivity = false;
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+        
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all FCM data? This will reset all tokens and settings.')) {
+                // Clear FCM related data
+                localStorage.removeItem('fcm_token');
+                localStorage.removeItem('fcm_token_sent');
+                localStorage.removeItem('fcm_token_sent_time');
+                localStorage.removeItem('fcm_token_pending');
+                localStorage.removeItem('user_id');
+                
+                alert('✅ All FCM data cleared. Please refresh the page and get a new token.');
+                checkQuickStatus();
+            }
+        }
+        
+        function exportTestReport() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                appInfo: {
+                    packageName: 'com.ecommerece.shop',
+                    version: '1.0.0',
+                    platform: 'android'
+                },
+                tokenStatus: {
+                    hasToken: !!localStorage.getItem('fcm_token'),
+                    tokenSent: localStorage.getItem('fcm_token_sent'),
+                    lastSentTime: localStorage.getItem('fcm_token_sent_time'),
+                    pendingToken: !!localStorage.getItem('fcm_token_pending')
+                },
+                testResults: testResults,
+                localStorage: {
+                    fcm_token: localStorage.getItem('fcm_token') ? 'Present' : 'Missing',
+                    fcm_token_sent: localStorage.getItem('fcm_token_sent') || 'Not set',
+                    fcm_token_sent_time: localStorage.getItem('fcm_token_sent_time') || 'Never',
+                    user_id: localStorage.getItem('user_id') || 'Not set'
+                }
+            };
+            
+            const reportJson = JSON.stringify(report, null, 2);
+            const blob = new Blob([reportJson], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fcm-test-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('📄 Test report exported successfully!');
+        }
+        
+        // Auto-refresh status every 30 seconds
+        setInterval(checkQuickStatus, 30000);
+    </script>
+</body>
+</html>
