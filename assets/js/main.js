@@ -826,7 +826,6 @@ itemActive.forEach((item) => {
                     $('#shippingZip').val(response.address.zip_code || '');
                     $('#shippingPhone').val(response.address.phone_number || '');
                 }
-
             },
             error: function(xhr, status, error) {
                 console.error('Error getting user:', xhr.responseJSON);
